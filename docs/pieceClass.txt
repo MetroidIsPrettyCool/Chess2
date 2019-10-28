@@ -1,0 +1,9 @@
+Piece Icon
+Piece Name
+Piece Descriptions 1 - 3
+Piece Location (X,Y Coordinates)
+Piece movement routine(s)
+Piece Id
+Piece Cost
+Does it promote?
+Can be caputured routine

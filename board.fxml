@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane pickOnBounds="false" prefHeight="485.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BoardController">
+   <children>
+      <VBox layoutX="400.0" prefHeight="400.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="infoIcon" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="infoDesc0" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" text="QUEEN" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="infoDesc1" prefHeight="40.0" prefWidth="200.0" text=" - Moves in any direction,  as far as she wants" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="infoDesc2" prefHeight="40.0" prefWidth="200.0" text=" - No special abilities" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="infoDesc3" prefHeight="40.0" prefWidth="200.0" text=" - Costs 11⛭" textAlignment="CENTER">
+               <font>
+                  <Font name="Liberation Mono" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox layoutY="404.0" prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="poolOption1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption1Selected" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></VBox>
+            <VBox prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="poolOption2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption2Clicked" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children></VBox>
+            <VBox prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="poolOption3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption3Selected" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children></VBox>
+            <VBox prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="poolOption4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption4Selected" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children></VBox>
+            <VBox prefHeight="80.0" prefWidth="80.0">
+               <children>
+                  <ImageView fx:id="poolOption5" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption5Selected" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children></VBox>
+            <Label fx:id="pointsDisplay" alignment="CENTER" prefHeight="75.0" prefWidth="200.0" text="0 / 20 ₿">
+               <font>
+                  <Font name="Impact" size="39.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Separator layoutX="399.0" orientation="VERTICAL" prefHeight="401.0" prefWidth="5.0" />
+      <Separator layoutY="399.0" prefHeight="5.0" prefWidth="401.0" />
+      <Pane fx:id="boardBackground" prefHeight="400.0" prefWidth="400.0">
+         <children>
+            <GridPane fx:id="pane" prefHeight="400.0" prefWidth="400.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <cursor>
+                  <Cursor fx:constant="CROSSHAIR" />
+               </cursor>
+            </GridPane>
+         </children>
+      </Pane>
+   </children>
+</Pane>

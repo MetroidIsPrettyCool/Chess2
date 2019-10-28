@@ -1,0 +1,21 @@
+ 1. Piece that moves like a queen but can't take pieces
+ 2. Piece that moves like a queen but ONLY on squares of a certain color
+ 3. Piece that moves like a queen, but controlled by BOTH sides
+ 4. Piece that an only move horizontally, can only capture vertically
+ 5. Piece that dies when it captures
+ 6. Piece that alternates between moving to any square and moving one square in any direction
+ 7. Piece that can jump over other pieces and otherwise works like a pawn that always moves 2 instead of 1
+ 8. Piece that only moves and captures vertically like a castle but locked in the x axis and can capture two pieces in one turn
+ 9. Piece that can only capture, but in any direction
+10. Piece that cannot be taken, but can only move if next to another piece
+11. Piece that must also be checkmated in order to win, (i.e.) Mutliple kings, but without the border setting
+12. Piece that converts other player's pieces to your color
+13. Piece that instead of capturing or moving, swaps position with any piece two squares away
+14. Piece that switches sides every time it captures
+15. Piece fundamentaly equal to a pawn, that can be placed anywhere on the board
+16. Piece that moves like rook and knight
+17. Piece that moves like bishop and knight
+18. Piece that plays like a checkers piece
+19. Piece controlled by the computer in some way, probably shows up automatically
+20. Piece invisibile to other players
+21. 
