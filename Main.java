@@ -25,6 +25,7 @@ public class Main extends Application  {
         // Set the Title to the Stage
         stage.setTitle("\u265F Chess2: Electric Boogaloo \u2654");
 	stage.setResizable(false);
+	stage.sizeToScene();
         // Display the Stage
         stage.show();
     }
