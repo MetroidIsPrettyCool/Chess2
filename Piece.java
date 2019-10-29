@@ -53,8 +53,8 @@ public class Piece implements Cloneable {
 	this.color = pcolor;
     }
     public String getIcon (boolean selectable)  {
-	if (selectable)  return new File ("textures/" + this.icon + "_" + (this.capturable ? "c" : "") + (this.selected ? "s" : "") + colors [color] + ".png").toURI().toString();
-	return new File ("textures/" + this.icon + "_" + colors [color] + ".png").toURI().toString();
+	if (selectable)  return new File ("textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + (this.capturable ? "c" : "") + (this.selected ? "s" : "") + colors [color] + ".png").toURI().toString();
+	return new File ("textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString();
     }
     public void setIcon (String picon)  {
 	this.icon = picon;

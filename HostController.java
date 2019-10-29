@@ -42,11 +42,13 @@ public class HostController {
     @FXML
     void playerTwoIsRemote(ActionEvent event) {
 	p2lButton.setSelected(false);
+	GameSettings.twoComputers = true;
     }
 
     @FXML
     void playerTwoIsLocal(ActionEvent event) {
 	p2rButton.setSelected(false);
+	GameSettings.twoComputers = false;
     }
     
     @FXML
@@ -62,6 +64,11 @@ public class HostController {
 
     @FXML
     void startGame(ActionEvent event) {
+	GameSettings.port = 0;
+	portNumber.setText("Port: " + GameSettings.port);
+	
+	// Conection code goes here
+	
 	try  {
 	    Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
 	    startButton.getScene().setRoot(game);

@@ -4,7 +4,7 @@ public class Player  {
     int score = 0;
     String boardTexture = "board";
     String pieceTexture = "piece";
-    Board board = new Board ("./textures/board.png");
+    Board board = new Board ("board.png");
     public Player (Boolean isWhite, Boolean isLocal)  {
 	this.isWhite = isWhite;
 	this.isLocal = isLocal;

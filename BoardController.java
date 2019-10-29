@@ -93,13 +93,13 @@ public class BoardController {
     public void initialize() {
 	// White and black players. first arg is if they player is white, second is if the player is local
 	white = new Player(true, true);
-	black = new Player(false, true);
+	black = new Player(false, !GameSettings.twoComputers);
 	// First playr to play is white
 	currPlayer = white;
 	// Stores what texture is in each square
 	images = new ImageView [currPlayer.getBoard().BOARDSIZE] [currPlayer.getBoard().BOARDSIZE];
 	// Sets the background of the board
-	boardBackground.setStyle("-fx-background-image:url('file:" + currPlayer.getBoard().boardImage + "')");
+        boardBackground.setStyle("-fx-background-image:url('file:./textures/"  + GameSettings.boardTexture + "/" + currPlayer.getBoard().boardImage + "')");
 	// When a player clicks on a square, this function is invoked
 	squareClicked = new EventHandler <MouseEvent> ()  {
 		@Override
@@ -109,8 +109,8 @@ public class BoardController {
 		    // Sets xPos and yPos to the x and y coordinates of the square clicked
 		    xPos = pane.getRowIndex((ImageView)e.getSource()) == null ? 0 : pane.getRowIndex((ImageView)e.getSource());
 		    yPos = pane.getColumnIndex((ImageView)e.getSource()) == null ? 0 : pane.getColumnIndex((ImageView)e.getSource());
-		    // If the current player isn't in selection mode and if the piece selected is set to be capturable
-		    if (!selecting && currPlayer.getBoard().board [xPos] [yPos].getCapturable())  {
+		    // If the current player isn't in selection mode and if the piece selected is set to be capturable and the current player is local
+		    if (!selecting && currPlayer.getBoard().board [xPos] [yPos].getCapturable() && currPlayer.getIsLocal())  {
 			currPlayer.setBoard(currPlayer.getBoard().board [xPos] [yPos].makeMove(currPlayer.getBoard(), selectedPiece, xPos, yPos));
 			// Increment the current player's score
 			currPlayer.setScore(currPlayer.getScore() + 1);
@@ -147,8 +147,8 @@ public class BoardController {
 			currPlayer.getBoard().board [xPos] [yPos].setSelected(true);
 			// Stores the selected piece
 			selectedPiece = currPlayer.getBoard().board [xPos] [yPos];
-			// If the piece selected has possible moves and is the same color as the current player
-			if (currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves(currPlayer.getBoard()) != null && (currPlayer.getBoard().board [xPos] [yPos].getColor() == 0 ? true : false) == currPlayer.getIsWhite())  {
+			// If the piece selected has possible moves and is the same color as the current player and the current player is local
+			if (currPlayer.getIsLocal() && currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves(currPlayer.getBoard()) != null && (currPlayer.getBoard().board [xPos] [yPos].getColor() == 0 ? true : false) == currPlayer.getIsWhite())  {
 			    // CAN PROBALY BE MOVED INTO GETPOSSIBLEMOVES, MIGHT DO LATER TO REDUCE CLUTTER
 			    // Loop through every square on the board
 			    for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
@@ -202,7 +202,6 @@ public class BoardController {
 	infoDesc1.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc1());
 	infoDesc2.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc2());
 	infoDesc3.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc3());
-	boardBackground.setStyle("-fx-background-image:url('file:" + currPlayer.getBoard().boardImage + "')");
     }
     
     private Node getNodeFromGridPane (GridPane gridPane, final int row, final int column)  {
