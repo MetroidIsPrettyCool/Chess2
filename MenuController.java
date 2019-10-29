@@ -21,12 +21,15 @@ public class MenuController {
     private Button hostButton;
 
     @FXML
+    private Button optionsButton;
+
+    @FXML
     private Pane background;
     
     @FXML
     void hostGame(ActionEvent event)  {
 	try  {
-	    Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
+	    Parent game = FXMLLoader.load(getClass().getResource("./host.fxml"));
 	    hostButton.getScene().setRoot(game);
 	}
 	catch (Exception e)  {
@@ -36,7 +39,25 @@ public class MenuController {
 
     @FXML
     void joinGame(ActionEvent event) {
+	try  {
+	    Parent game = FXMLLoader.load(getClass().getResource("./join.fxml"));
+	    joinButton.getScene().setRoot(game);
+	}
+	catch (Exception e)  {
+	    System.out.println(e);
+	}
 
+    }
+
+    @FXML
+    void options (ActionEvent event)  {
+	try  {
+	    Parent game = FXMLLoader.load(getClass().getResource("./options.fxml"));
+	    optionsButton.getScene().setRoot(game);
+	}
+	catch (Exception e)  {
+	    System.out.println(e);
+	}
     }
 
     @FXML

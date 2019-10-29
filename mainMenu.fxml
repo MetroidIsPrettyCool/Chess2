@@ -8,6 +8,7 @@
    <children>
       <Button fx:id="hostButton" layoutX="200.0" layoutY="243.0" mnemonicParsing="false" onAction="#hostGame" prefHeight="30.0" prefWidth="200.0" text="Host Game" textAlignment="CENTER" />
       <Button fx:id="joinButton" layoutX="200.0" layoutY="273.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="30.0" prefWidth="200.0" text="Join Game" textAlignment="CENTER" />
-      <Button fx:id="exitButton" layoutX="200.0" layoutY="303.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="30.0" prefWidth="200.0" text="Exit" textAlignment="CENTER" />
+      <Button fx:id="exitButton" layoutX="200.0" layoutY="333.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="30.0" prefWidth="200.0" text="Exit" textAlignment="CENTER" />
+      <Button fx:id="optionsButton" layoutX="200.0" layoutY="303.0" mnemonicParsing="false" onAction="#options" prefHeight="30.0" prefWidth="200.0" text="Options" textAlignment="CENTER" />
    </children>
 </Pane>
