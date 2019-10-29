@@ -40,12 +40,7 @@ public class Player  {
 	return this.pieceTexture;
     }
     public void setBoard (Board newBoard)  {
-	try  {
-	    this.board = (Board)newBoard.clone();
-	}
-	catch (Exception e)  {
-	    System.out.println(e + " Cloning board");
-	}
+        this.board = newBoard;
     }
     public Board getBoard ()  {
 	return this.board;

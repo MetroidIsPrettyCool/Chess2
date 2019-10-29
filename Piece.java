@@ -102,10 +102,31 @@ public class Piece implements Cloneable {
 	this.capturable = pcapturable;
     }
     public boolean canBeCaptured (Piece p)  {
-	return false;
+	return true;
     }
-    public int [] [] getPossibleMoves ()  {
-	return null;
+    public boolean canCapture (Piece p)  {
+	return p.getColor() != this.getColor();
+    }
+    public boolean canMakeMove (Piece p)  {
+	return this.canCapture(p) && p.canBeCaptured(this);
+    }
+    public int [] [] getPossibleMoves (Board board)  {
+        return null;
+    }
+    public Board makeMove (Board board, Piece p, int x, int y)  {
+	Board newBoard;
+	try  {
+	    newBoard = (Board)board.clone();
+	    newBoard.board [x] [y] = (Piece)board.board [p.getX()] [p.getY()].clone();
+	    newBoard.board [x] [y].setX(x);
+	    newBoard.board [x] [y].setY(y);
+	    newBoard.board [p.getX()] [p.getY()] = new BlankPiece ();
+	}
+	catch (Exception e)  {
+	    System.out.println(e + " Moving piece");
+	    return null;
+	}
+	return newBoard;
     }
     public Object clone () throws CloneNotSupportedException  { 
         return super.clone(); 

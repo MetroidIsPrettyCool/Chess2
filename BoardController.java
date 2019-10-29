@@ -109,7 +109,7 @@ public class BoardController {
 		    // Sets xPos and yPos to the x and y coordinates of the square clicked
 		    xPos = pane.getRowIndex((ImageView)e.getSource()) == null ? 0 : pane.getRowIndex((ImageView)e.getSource());
 		    yPos = pane.getColumnIndex((ImageView)e.getSource()) == null ? 0 : pane.getColumnIndex((ImageView)e.getSource());
-		    // If the playe ris in selection mode
+		    // If the player is in selection mode
 		    if (selecting)  {
 			// Sets every square to not be capturable
 			for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
@@ -122,13 +122,13 @@ public class BoardController {
 			// Stores the selected piece
 			selectedPiece = currPlayer.getBoard().board [xPos] [yPos];
 			// If the piece selected has possible moves and is the same color as the current player
-			if (currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves() != null && (currPlayer.getBoard().board [xPos] [yPos].getColor() == 0 ? true : false) == currPlayer.getIsWhite())  {
+			if (currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves(currPlayer.getBoard()) != null && (currPlayer.getBoard().board [xPos] [yPos].getColor() == 0 ? true : false) == currPlayer.getIsWhite())  {
+			    // CAN PROBALY BE MOVED INTO GETPOSSIBLEMOVES, MIGHT DO LATER TO REDUCE CLUTTER
 			    // Loop through every square on the board
 			    for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
 				for (int j = currPlayer.getBoard().BOARDSIZE - 1; j >= 0; j--)  {
-				    // TODO: Rewrite to have each piece have their own canCapture method
 				    // If the square can be moved to by the square and can be captured by it
-				    if (currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves() [i] [j] == 1 && currPlayer.getBoard().board [i] [j].canBeCaptured(currPlayer.getBoard().board [xPos] [yPos]))  {
+				    if (currPlayer.getBoard().board [xPos] [yPos].getPossibleMoves(currPlayer.getBoard()) [i] [j] == 1)  {
 					// Set the piece to display as capturable
 					currPlayer.getBoard().board [i] [j].setCapturable(true);
 				    }
@@ -142,19 +142,8 @@ public class BoardController {
 		    else  {
 			// If the piece selected is set to be capturable
 			if (currPlayer.getBoard().board [xPos] [yPos].getCapturable())  {
-			    // Attempt to set the piece to a clone of the selected piece
-			    try  {
-				currPlayer.getBoard().board [xPos] [yPos] = (Piece)selectedPiece.clone();
-			    }
-			    // If it failed, print a diagnostic message
-			    catch (Exception ex)  {
-				System.out.println(ex + " Moving piece");
-			    }
-			    // Set the x & y coordniates of the moved piece
-			    currPlayer.getBoard().board [xPos] [yPos].setX(xPos);
-			    currPlayer.getBoard().board [xPos] [yPos].setY(yPos);
-			    // Set the selected piece to a blank piece
-			    currPlayer.getBoard().board [selectedPiece.getX()] [selectedPiece.getY()] = new BlankPiece (selectedPiece.getX(), selectedPiece.getY());
+			    currPlayer.setBoard(currPlayer.getBoard().board [xPos] [yPos].makeMove(currPlayer.getBoard(), selectedPiece, xPos, yPos));
+			    // Increment the current player's score
 			    currPlayer.setScore(currPlayer.getScore() + 1);
 			    // Switch players
 			    if (currPlayer.equals(white))  {

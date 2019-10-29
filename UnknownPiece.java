@@ -7,11 +7,12 @@ public class UnknownPiece extends Piece  {
 	super(px, py, 1, 0, "unknown", "Unknown", " - Unknown Piece", " - Kinda lame", " - V A1", pcolor);
     }
     @Override
-    public int [] [] getPossibleMoves ()  {
+    public int [] [] getPossibleMoves (Board board)  {
 	int [] [] moves = new int [this.BOARDSIZE] [this.BOARDSIZE];
 	for (int i = this.x - 1; i <= this.x + 1; i++)  {
 	    for (int j = this.y - 1; j <= this.y + 1; j++)  {
-		if (i >= 0 && this.BOARDSIZE > i && j >= 0 && this.BOARDSIZE > j)  moves [i] [j] = 1;
+		if (i >= 0 && this.BOARDSIZE > i && j >= 0 && this.BOARDSIZE > j)
+		    if (this.canMakeMove(board.board [i] [j]))  moves [i] [j] = 1;
 	    }
 	}
 	moves [this.x] [this.y] = 0;

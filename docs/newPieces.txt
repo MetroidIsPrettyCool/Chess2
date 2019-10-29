@@ -18,4 +18,5 @@
 18. Piece that plays like a checkers piece
 19. Piece controlled by the computer in some way, probably shows up automatically
 20. Piece invisibile to other players
-21. 
+21. Piece that canoot move, capture or be captured
+22. Piece that looks like the other player's king
