@@ -109,8 +109,34 @@ public class BoardController {
 		    // Sets xPos and yPos to the x and y coordinates of the square clicked
 		    xPos = pane.getRowIndex((ImageView)e.getSource()) == null ? 0 : pane.getRowIndex((ImageView)e.getSource());
 		    yPos = pane.getColumnIndex((ImageView)e.getSource()) == null ? 0 : pane.getColumnIndex((ImageView)e.getSource());
+		    // If the current player isn't in selection mode and if the piece selected is set to be capturable
+		    if (!selecting && currPlayer.getBoard().board [xPos] [yPos].getCapturable())  {
+			currPlayer.setBoard(currPlayer.getBoard().board [xPos] [yPos].makeMove(currPlayer.getBoard(), selectedPiece, xPos, yPos));
+			// Increment the current player's score
+			currPlayer.setScore(currPlayer.getScore() + 1);
+			// Switch players
+			if (currPlayer.equals(white))  {
+			    black.setBoard(currPlayer.getBoard());
+			    // Increment the current player's score
+			    currPlayer = black;
+			}
+			else  {
+			    white.setBoard(currPlayer.getBoard());
+			    currPlayer = white;
+			}
+			// Redraw the board
+			drawBoard();
+			for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
+			    for (int j = currPlayer.getBoard().BOARDSIZE - 1; j >= 0; j--)  {
+				currPlayer.getBoard().board [i] [j].setCapturable(false);
+				currPlayer.getBoard().board [i] [j].setSelected(false);
+			    }
+			}
+			//Put the current player back into selecting mode
+			selecting = true;
+		    }
 		    // If the player is in selection mode
-		    if (selecting)  {
+		    else  {
 			// Sets every square to not be capturable
 			for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
 			    for (int j = currPlayer.getBoard().BOARDSIZE - 1; j >= 0; j--)  {
@@ -137,35 +163,6 @@ public class BoardController {
 			}
 			// If the current player is local, move them out of selection mode (Otherwise the current player is remote and the local player should be able to select whatever)
 			if (currPlayer.getIsLocal())  selecting = false;
-		    }
-		    // If the current player isn't in selection mode
-		    else  {
-			// If the piece selected is set to be capturable
-			if (currPlayer.getBoard().board [xPos] [yPos].getCapturable())  {
-			    currPlayer.setBoard(currPlayer.getBoard().board [xPos] [yPos].makeMove(currPlayer.getBoard(), selectedPiece, xPos, yPos));
-			    // Increment the current player's score
-			    currPlayer.setScore(currPlayer.getScore() + 1);
-			    // Switch players
-			    if (currPlayer.equals(white))  {
-				black.setBoard(currPlayer.getBoard());
-				// Increment the current player's score
-				currPlayer = black;
-			    }
-			    else  {
-				white.setBoard(currPlayer.getBoard());
-				currPlayer = white;
-			    }
-			    // Redraw the board
-			    drawBoard();
-			}
-			for (int i = 0; i != currPlayer.getBoard().BOARDSIZE; i++)  {
-			    for (int j = currPlayer.getBoard().BOARDSIZE - 1; j >= 0; j--)  {
-				currPlayer.getBoard().board [i] [j].setCapturable(false);
-				currPlayer.getBoard().board [i] [j].setSelected(false);
-			    }
-			}
-			//Put the current player back into selecting mode
-			selecting = true;
 		    }
 		    // Redraw the board
 		    drawBoard();
@@ -200,7 +197,7 @@ public class BoardController {
 
     private void updateSidebar ()  {
 	pointsDisplay.setText(currPlayer.getScore() + " / 20 \u20bf");
-	infoIcon.setImage(new Image(currPlayer.getBoard().board [xPos] [yPos].getIcon(true)));
+	infoIcon.setImage(new Image(currPlayer.getBoard().board [xPos] [yPos].getIcon(false)));
 	infoDesc0.setText(currPlayer.getBoard().board [xPos] [yPos].getName());
 	infoDesc1.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc1());
 	infoDesc2.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc2());
