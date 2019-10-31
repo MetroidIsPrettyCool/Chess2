@@ -8,7 +8,7 @@ public class Piece implements Cloneable {
     boolean promoted;
     int x, y, id, cost, color;
     String icon, name, desc1, desc2, desc3;
-    final String [] colors = new String []{"white", "black", ""};
+    final String [] colors = new String [] {"white", "black", ""};
     public Piece (int px, int py, int pid, int pcost, String picon, String pname, String pdesc1, String pdesc2, String pdesc3, int pcolor)  {
 	this.promoted = false;
 	this.x = px;
@@ -120,7 +120,7 @@ public class Piece implements Cloneable {
 	    newBoard.board [x] [y] = (Piece)board.board [p.getX()] [p.getY()].clone();
 	    newBoard.board [x] [y].setX(x);
 	    newBoard.board [x] [y].setY(y);
-	    newBoard.board [p.getX()] [p.getY()] = new BlankPiece ();
+	    newBoard.board [p.getX()] [p.getY()] = new BlankPiece (p.getX(), p.getY());
 	}
 	catch (Exception e)  {
 	    System.out.println(e + " Moving piece");

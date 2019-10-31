@@ -10,6 +10,8 @@ import javafx.event.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Label;
+import java.io.*;
+import java.net.*;
 
 public class HostController {
 
@@ -32,7 +34,7 @@ public class HostController {
     private RadioButton p2lButton;
     
     @FXML
-    private Label portNumber;
+    private Label ipDisp;
 
     @FXML
     void toggleGameMode(ActionEvent event) {
@@ -64,19 +66,53 @@ public class HostController {
 
     @FXML
     void startGame(ActionEvent event) {
-	GameSettings.port = 0;
-	portNumber.setText("Port: " + GameSettings.port);
-	
-	// Conection code goes here
-	
 	try  {
-	    Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
-	    startButton.getScene().setRoot(game);
+	    GameSettings.ip = InetAddress.getLocalHost();
+	    
 	}
 	catch (Exception e)  {
-	    System.out.println(e);
+	    System.out.println(e + " Setting up connection");
+	}
+	
+	ipDisp.setText("IP Address: " + GameSettings.ip.getHostAddress());
+	System.out.println(ipDisp.getText());
+
+	if (GameSettings.twoComputers == true)  {
+	    Thread initServer = new Thread(new HostController ().new StartServer ()); 
+	    initServer.start();
+	}
+
+	if (GameSettings.out != null || GameSettings.twoComputers == false)  {
+	    try  {
+		Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
+		startButton.getScene().setRoot(game);
+	    }
+	    catch (Exception e)  {
+	    }
 	}
     }
+    
+    private class StartServer implements Runnable  { 
+	
+        public void run ()  { 
+	    try  {
+		GameSettings.server = new ServerSocket(GameSettings.port); 
+		System.out.println("Server started"); 
+	    
+		System.out.println("Waiting for a client ..."); 
+	    
+		GameSettings.socket = GameSettings.server.accept(); 
+		System.out.println("Client accepted");
+
+		GameSettings.out = new ObjectOutputStream(GameSettings.socket.getOutputStream());
+		GameSettings.in = new ObjectInputStream(GameSettings.socket.getInputStream());
+	    }
+	    catch (Exception e)  {
+		System.out.println(e);
+		return;
+	    }
+        } 
+    } 
 
     @FXML
     public void initialize() {

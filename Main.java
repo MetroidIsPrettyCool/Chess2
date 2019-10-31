@@ -36,6 +36,7 @@ public class Main extends Application  {
 		    try  {
 			Parent menu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
 			scene.setRoot(menu);
+			GameSettings.socket.close();
 		    }
 		    catch (Exception ex)  {
 			System.out.println(ex);

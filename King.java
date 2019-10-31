@@ -1,10 +1,10 @@
-import java.util.Arrays; 
-public class UnknownPiece extends Piece  {
-    public UnknownPiece ()  {
-	super(0, 0, 1, 3, "unknown", "Unknown", "", "", "", 0);
+import java.util.Arrays;
+public class King extends Piece  {
+    public King ()  {
+	super(0, 0, 6, 10, "king", "King", "King piece", "Same as normal chess", "More or less", 0);
     }
-    public UnknownPiece (int px, int py, int pcolor)  {
-	super(px, py, 1, 3, "unknown", "Unknown", " - Unknown Piece", " - Kinda lame", " - V A1", pcolor);
+    public King (int px, int py, int pcolor)  {
+	super(px, py, 6, 10, "king", "King", "King piece", "Same as normal chess", "More or less", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
@@ -16,6 +16,7 @@ public class UnknownPiece extends Piece  {
 	    }
 	}
 	moves [this.x] [this.y] = 0;
+	BoardController.currPlayer.kingRank = this.x;
 	return moves;
     }
     @Override

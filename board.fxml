@@ -39,46 +39,73 @@
       </VBox>
       <HBox layoutY="404.0" prefHeight="80.0" prefWidth="600.0">
          <children>
-            <VBox prefHeight="80.0" prefWidth="80.0">
+            <Button fx:id="leftButton" mnemonicParsing="false" onAction="#rotateLeft" prefHeight="80.0" prefWidth="30.0" text="&lt;" />
+            <VBox prefHeight="80.0" prefWidth="68.0">
                <children>
-                  <ImageView fx:id="poolOption1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption1Selected" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="poolOption1" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#poolOption1Selected" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="option1Cost" alignment="TOP_CENTER" prefHeight="12.0" prefWidth="80.0" text="1">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></VBox>
-            <VBox prefHeight="80.0" prefWidth="80.0">
+            <VBox prefHeight="80.0" prefWidth="68.0">
                <children>
-                  <ImageView fx:id="poolOption2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption2Clicked" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="poolOption2" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#poolOption2Clicked" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <Label fx:id="option2Cost" alignment="TOP_CENTER" prefHeight="12.0" prefWidth="80.0" text="1">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                </children></VBox>
-            <VBox prefHeight="80.0" prefWidth="80.0">
+            <VBox prefHeight="80.0" prefWidth="68.0">
                <children>
-                  <ImageView fx:id="poolOption3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption3Selected" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="poolOption3" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#poolOption3Selected" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <Label fx:id="option3Cost" alignment="TOP_CENTER" prefHeight="12.0" prefWidth="80.0" text="1">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                </children></VBox>
-            <VBox prefHeight="80.0" prefWidth="80.0">
+            <VBox prefHeight="80.0" prefWidth="68.0">
                <children>
-                  <ImageView fx:id="poolOption4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption4Selected" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="poolOption4" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#poolOption4Selected" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <Label fx:id="option4Cost" alignment="TOP_CENTER" prefHeight="12.0" prefWidth="80.0" text="1">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                </children></VBox>
-            <VBox prefHeight="80.0" prefWidth="80.0">
+            <VBox prefHeight="80.0" prefWidth="68.0">
                <children>
-                  <ImageView fx:id="poolOption5" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#poolOption5Selected" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="poolOption5" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#poolOption5Selected" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <Label fx:id="option5Cost" alignment="TOP_CENTER" prefHeight="12.0" prefWidth="80.0" text="1">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                </children></VBox>
-            <Label fx:id="pointsDisplay" alignment="CENTER" prefHeight="75.0" prefWidth="200.0" text="0 / 20 ₿">
+            <Button fx:id="rightButton" mnemonicParsing="false" onAction="#rotateRight" prefHeight="80.0" prefWidth="30.0" text="&gt;" />
+            <Label fx:id="pointsDisplay" alignment="CENTER" prefHeight="80.0" prefWidth="200.0" text="0 / 20 ₿">
                <font>
                   <Font name="Impact" size="39.0" />
                </font>

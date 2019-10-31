@@ -7,7 +7,7 @@
 
 <Pane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JoinController">
    <children>
-      <TextField fx:id="portInput" alignment="CENTER" layoutX="100.0" layoutY="133.0" prefHeight="30.0" prefWidth="400.0" promptText="Enter Port #" />
+      <TextField fx:id="ipInput" alignment="CENTER" layoutX="100.0" layoutY="133.0" prefHeight="30.0" prefWidth="400.0" promptText="Enter IP Address" />
       <Button fx:id="startButton" layoutX="100.0" layoutY="213.0" mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="400.0" text="Start!">
          <font>
             <Font size="24.0" />

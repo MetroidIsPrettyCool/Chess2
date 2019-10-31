@@ -2,12 +2,19 @@ public class Player  {
     Boolean isWhite;
     Boolean isLocal;
     int score = 0;
-    String boardTexture = "board";
-    String pieceTexture = "piece";
+    public int kingRank;
     Board board = new Board ("board.png");
+    Piece [] allPieces = new Piece [6];
     public Player (Boolean isWhite, Boolean isLocal)  {
 	this.isWhite = isWhite;
 	this.isLocal = isLocal;
+	allPieces [0] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [1] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [2] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [3] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [4] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [5] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	kingRank = (isWhite ? 0 : 9); 
     }
     public void setIsWhite (boolean isWhite)  {
 	this.isWhite = isWhite; 
@@ -26,18 +33,6 @@ public class Player  {
     }
     public int getScore ()  {
 	return this.score;
-    }
-    public void setBoardTexture (String boardTexture)  {
-	this.boardTexture = boardTexture; 
-    }
-    public String getBoardTexture ()  {
-	return this.boardTexture;
-    }
-    public void setPieceTexture (String pieceTexture)  {
-	this.pieceTexture = pieceTexture;
-    }
-    public String getPieceTexture ()  {
-	return this.pieceTexture;
     }
     public void setBoard (Board newBoard)  {
         this.board = newBoard;
