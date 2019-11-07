@@ -8,10 +8,10 @@ public class UnknownPiece extends Piece  {
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
-	int [] [] moves = new int [this.BOARDSIZE] [this.BOARDSIZE];
+	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
 	for (int i = this.x - 1; i <= this.x + 1; i++)  {
 	    for (int j = this.y - 1; j <= this.y + 1; j++)  {
-		if (i >= 0 && this.BOARDSIZE > i && j >= 0 && this.BOARDSIZE > j)
+		if (i >= 0 && GameSettings.BOARDSIZE > i && j >= 0 && GameSettings.BOARDSIZE > j)
 		    if (this.canMakeMove(board.board [i] [j]))  moves [i] [j] = 1;
 	    }
 	}

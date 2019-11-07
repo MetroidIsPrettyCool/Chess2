@@ -1,11 +1,9 @@
 import java.util.*;
 import java.io.*;
+import java.net.*;
 
-public class Piece implements Cloneable {
-    final int BOARDSIZE = 10;
-    boolean selected = false;
-    boolean capturable = false;
-    boolean promoted;
+public class Piece implements Cloneable, Serializable {
+    boolean promoted = false, selected = false, capturable = false, modified = true;
     int x, y, id, cost, color;
     String icon, name, desc1, desc2, desc3;
     final String [] colors = new String [] {"white", "black", ""};
@@ -93,13 +91,21 @@ public class Piece implements Cloneable {
 	return this.selected;
     }
     public void setSelected (boolean pselected)  {
+	if (pselected != this.selected)  this.modified = true;
 	this.selected = pselected;
     }
     public boolean getCapturable ()  {
 	return this.capturable;
     }
     public void setCapturable (boolean pcapturable)  {
+	if (pcapturable != this.capturable)  this.modified = true;
 	this.capturable = pcapturable;
+    }
+    public boolean getModified ()  {
+	return this.modified;
+    }
+    public void setModified (boolean pmodified)  {
+	this.modified = pmodified;
     }
     public boolean canBeCaptured (Piece p)  {
 	return true;
@@ -113,20 +119,24 @@ public class Piece implements Cloneable {
     public int [] [] getPossibleMoves (Board board)  {
         return null;
     }
-    public Board makeMove (Board board, Piece p, int x, int y)  {
+    public Board makeMove (Board board, Piece d)  {
 	Board newBoard;
 	try  {
 	    newBoard = (Board)board.clone();
-	    newBoard.board [x] [y] = (Piece)board.board [p.getX()] [p.getY()].clone();
-	    newBoard.board [x] [y].setX(x);
-	    newBoard.board [x] [y].setY(y);
-	    newBoard.board [p.getX()] [p.getY()] = new BlankPiece (p.getX(), p.getY());
+	    newBoard.board [d.getX()] [d.getY()] = (Piece)this.clone();
+	    newBoard.board [d.getX()] [d.getY()].setX(d.getX());
+	    newBoard.board [d.getX()] [d.getY()].setY(d.getY());
+	    newBoard.board [d.getX()] [d.getY()].setModified(true);
+	    newBoard.board [this.getX()] [this.getY()] = new BlankPiece (this.getX(), this.getY());
 	}
 	catch (Exception e)  {
 	    System.out.println(e + " Moving piece");
 	    return null;
 	}
 	return newBoard;
+    }
+    public void upkeep ()  {
+	// Does nothing by default, needed for a couple special pieces (like the king)
     }
     public Object clone () throws CloneNotSupportedException  { 
         return super.clone(); 

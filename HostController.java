@@ -77,11 +77,6 @@ public class HostController {
 	ipDisp.setText("IP Address: " + GameSettings.ip.getHostAddress());
 	System.out.println(ipDisp.getText());
 
-	if (GameSettings.twoComputers == true)  {
-	    Thread initServer = new Thread(new HostController ().new StartServer ()); 
-	    initServer.start();
-	}
-
 	if (GameSettings.out != null || GameSettings.twoComputers == false)  {
 	    try  {
 		Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
@@ -89,6 +84,12 @@ public class HostController {
 	    }
 	    catch (Exception e)  {
 	    }
+	    return;
+	}
+	
+	if (GameSettings.twoComputers == true)  {
+	    Thread initServer = new Thread(new HostController ().new StartServer ()); 
+	    initServer.start();
 	}
     }
     
@@ -104,6 +105,7 @@ public class HostController {
 		GameSettings.socket = GameSettings.server.accept(); 
 		System.out.println("Client accepted");
 
+		
 		GameSettings.out = new ObjectOutputStream(GameSettings.socket.getOutputStream());
 		GameSettings.in = new ObjectInputStream(GameSettings.socket.getInputStream());
 	    }

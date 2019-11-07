@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -10,5 +11,15 @@
       <Button fx:id="joinButton" layoutX="200.0" layoutY="273.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="30.0" prefWidth="200.0" text="Join Game" textAlignment="CENTER" />
       <Button fx:id="exitButton" layoutX="200.0" layoutY="333.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="30.0" prefWidth="200.0" text="Exit" textAlignment="CENTER" />
       <Button fx:id="optionsButton" layoutX="200.0" layoutY="303.0" mnemonicParsing="false" onAction="#options" prefHeight="30.0" prefWidth="200.0" text="Options" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutX="-7.0" layoutY="24.0" prefHeight="42.0" prefWidth="615.0" text="CHESS 2:" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Serif Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="-7.0" layoutY="68.0" prefHeight="42.0" prefWidth="615.0" text="Electric Boogaloo" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium Italic" size="18.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

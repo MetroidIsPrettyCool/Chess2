@@ -36,12 +36,15 @@ public class Main extends Application  {
 		    try  {
 			Parent menu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
 			scene.setRoot(menu);
+			GameSettings.out.close();
+			GameSettings.in.close();
 			GameSettings.socket.close();
 		    }
 		    catch (Exception ex)  {
 			System.out.println(ex);
 		    }
 		}
-	    });
+	    }
+	    );
     }
 }

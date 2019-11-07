@@ -47,8 +47,6 @@ public class JoinController {
 	    System.out.println(e);
 	    return;
 	}
-	Thread initClient = new Thread(new JoinController ().new StartClient ()); 
-        initClient.start();
 	if (GameSettings.out != null)  {
 	    try  {
 		Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
@@ -57,7 +55,10 @@ public class JoinController {
 	    catch (Exception e)  {
 		System.out.println(e + " Loading game board");
 	    }
+	    return;
 	}
+	Thread initClient = new Thread(new JoinController ().new StartClient ()); 
+        initClient.start();
     }
 
     private class StartClient implements Runnable  { 
