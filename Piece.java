@@ -108,10 +108,10 @@ public class Piece implements Cloneable, Serializable {
 	this.modified = pmodified;
     }
     public boolean canBeCaptured (Piece p)  {
-	return true;
-    }
-    public boolean canCapture (Piece p)  {
 	return p.getColor() != this.getColor();
+    }
+    public boolean canCapture (Piece p)  {	
+	return true;
     }
     public boolean canMakeMove (Piece p)  {
 	return this.canCapture(p) && p.canBeCaptured(this);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WinController">
+   <children>
+      <Label fx:id="message" alignment="CENTER" layoutY="14.0" minHeight="200.0" prefWidth="600.0" text="You Win!" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="96.0" />
+         </font>
+      </Label>
+      <Button fx:id="returnToMenu" alignment="CENTER" layoutX="50.0" layoutY="243.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="500.0" text="Return to Main Menu">
+         <font>
+            <Font name="Segoe UI" size="24.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

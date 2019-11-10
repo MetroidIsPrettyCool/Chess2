@@ -21,7 +21,7 @@ public class OptionsController {
     @FXML
     void goBack(ActionEvent event) {
 	try  {
-	    Parent mainMenu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
+	    Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 	    backButton.getScene().setRoot(mainMenu);
 	}
 	catch (Exception e)  {
@@ -31,7 +31,7 @@ public class OptionsController {
 
     @FXML
     public void initialize() {
-        background.setStyle("-fx-background-image:url('file:./textures/menu.png')");
+        background.setStyle("-fx-background-image:url('file:textures/menu.png')");
     }
 
 }

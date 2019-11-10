@@ -1,4 +1,5 @@
 import java.net.URI;
+import java.io.EOFException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.event.*;
@@ -109,11 +110,17 @@ public class BoardController {
     void poolOption5Selected (Event event) {
 	placeNewPiece(4);
     }
-
     void placeNewPiece (int off)  {
-	if (currPlayer.allPieces [optionOffset + off].getCost() <= currPlayer.getScore())  {
-	    selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
-	    System.out.println(currPlayer.getKingRank());
+	for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+	    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+		currPlayer.getBoard().board [i] [j].upkeep();
+		// Set each piece to deselected and uncapturable
+		currPlayer.getBoard().board [i] [j].setSelected(false);
+		currPlayer.getBoard().board [i] [j].setCapturable(false);
+	    }
+	}
+	selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
+	if (currPlayer.allPieces [optionOffset + off].getCost() <= currPlayer.getScore() && selectedPiece.getPossibleMoves(currPlayer.getBoard()) != null)  {
 	    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 		for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 		    if (selectedPiece.getPossibleMoves(currPlayer.getBoard()) [i] [j] == 1)  {
@@ -148,22 +155,22 @@ public class BoardController {
     public Board newBoard;
      
     @FXML
-    public void initialize () {
+    public void initialize ()  {
 	// White and black players. first arg is if they player is white, second is if the player is local
 	white = new Player(true, (GameSettings.server != null) || !GameSettings.twoComputers);
 	black = new Player(false, !((!GameSettings.twoComputers) ^ (GameSettings.server != null)) || !GameSettings.twoComputers);
 	// First playr to play is white
 	currPlayer = white;
 	// Stores what texture is in each square
-	images = new ImageView [currPlayer.getBoard().BOARDSIZE] [currPlayer.getBoard().BOARDSIZE];
+	images = new ImageView [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
 	// Sets the background of the board
-        boardBackground.setStyle("-fx-background-image:url('file:./textures/"  + GameSettings.boardTexture + "/" + currPlayer.getBoard().boardImage + "')");
+        boardBackground.setStyle("-fx-background-image:url('file:textures/"  + GameSettings.boardTexture + "/" + currPlayer.getBoard().boardImage + "')");
 	// When a player clicks on a square, this function is invoked
 	squareClicked = new EventHandler <MouseEvent> ()  {
 		@Override
 		public void handle (MouseEvent e) {
-		    // Deselects the previously selected square
-		    currPlayer.getBoard().board [xPos] [yPos].setSelected(false);
+		    // Deselects previous square
+		    if (selectedPiece != null)  selectedPiece.setSelected(false);
 		    // Sets xPos and yPos to the x and y coordinates of the square clicked
 		    xPos = pane.getRowIndex((ImageView)e.getSource()) == null ? 0 : pane.getRowIndex((ImageView)e.getSource());
 		    yPos = pane.getColumnIndex((ImageView)e.getSource()) == null ? 0 : pane.getColumnIndex((ImageView)e.getSource());
@@ -171,7 +178,6 @@ public class BoardController {
 		    clickedPiece = currPlayer.getBoard().board [xPos] [yPos];
 		    // If the current player is local and the piece is capturable
 		    if (currPlayer.getIsLocal() && clickedPiece.getCapturable())  {
-			System.out.println(selectedPiece.getId());
 			if (selectedPiece.getId() == -1)  {
 			    currPlayer.setScore(currPlayer.getScore() - selectedPiece.getCost());
 			}
@@ -180,27 +186,34 @@ public class BoardController {
 			// Resets the kingInPlay flag pre-emptively
 			white.setKingInPlay(false);
 			black.setKingInPlay(false);
+		        white.setKingRank(-1);
+			black.setKingRank(-1);
 			// Perform upkeep on all pieces
 		        for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 			    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 				currPlayer.getBoard().board [i] [j].upkeep();
-				// Set each piece to deselected and uncapturable
+			    }
+			}
+			// TODO: make the way this works change based on the gamemode
+			// Update the current player's score
+			if (currPlayer.getScore() + (GameSettings.BOARDSIZE - (currPlayer.getKingRank()) / 2) <= 20)
+			    currPlayer.setScore(currPlayer.getScore() + (GameSettings.BOARDSIZE - currPlayer.getKingRank()) / 2);
+			switchPlayers();
+			// Send the board to the other player
+			if (GameSettings.twoComputers)  {
+			    try  {
+				GameSettings.out.writeObject(currPlayer.getBoard());
+			    }
+			    catch (Exception ex)  {
+				System.out.println(ex + " Writing board");
+			    }
+			}
+			for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+			    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 				currPlayer.getBoard().board [i] [j].setSelected(false);
 				currPlayer.getBoard().board [i] [j].setCapturable(false);
 			    }
 			}
-			// Send the board to the other player
-			try  {
-			    if (GameSettings.twoComputers)  GameSettings.out.writeObject(currPlayer.getBoard());
-			}
-			catch (Exception ex)  {
-			    System.out.println(ex + " Writing board");
-			}
-			// TODO: make the way this works change based on the gamemode
-			// Update the current player's score
-			currPlayer.setScore(currPlayer.getScore() + 2);
-			switchPlayers();
-			if (!currPlayer.getKingInPlay())  System.out.println((currPlayer.getIsWhite() ? "White " : "Black ") + "Loses");
 		    }
 		    // Otherwise
 		    else  {
@@ -213,8 +226,16 @@ public class BoardController {
 				    currPlayer.getBoard().board [i] [j].setSelected(false);
 				    currPlayer.getBoard().board [i] [j].setCapturable(false);
 				    if (selectedPiece.getPossibleMoves(currPlayer.getBoard()) != null && selectedPiece.getPossibleMoves(currPlayer.getBoard()) [i] [j] == 1)  {
-					currPlayer.getBoard().board [i] [j].setCapturable(true);
+					if (selectedPiece.canMakeMove(currPlayer.getBoard().board [i] [j]))  currPlayer.getBoard().board [i] [j].setCapturable(true);
 				    }
+				}
+			    }
+			}
+			else  {
+			    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+				for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+				    currPlayer.getBoard().board [i] [j].setSelected(false);
+				    currPlayer.getBoard().board [i] [j].setCapturable(false);
 				}
 			    }
 			}
@@ -241,13 +262,25 @@ public class BoardController {
 	new AnimationTimer() {
             @Override
             public void handle(long now) {
-		if (selectedPiece != null && selectedPiece.getModified())  {
-		    infoIcon.setImage(new Image(currPlayer.getBoard().board [xPos] [yPos].getIcon(false)));
-		    infoDesc0.setText(currPlayer.getBoard().board [xPos] [yPos].getName());
-		    infoDesc1.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc1());
-		    infoDesc2.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc2());
-		    infoDesc3.setText(currPlayer.getBoard().board [xPos] [yPos].getDesc3());
+		if (!white.getKingInPlay() || !black.getKingInPlay())  {
+		    try  {
+			Parent menu = FXMLLoader.load(getClass().getResource("fxml/winScreen.fxml"));
+			boardBackground.getScene().setRoot(menu);
+			this.stop();
+			return;
+		    }
+		    catch (Exception e)  {
+			System.out.println(e + " Loading Win Screen");
+		    }
 		}
+		if (selectedPiece != null && selectedPiece.getModified())  {
+		    infoIcon.setImage(new Image(selectedPiece.getIcon(false)));
+		    infoDesc0.setText(selectedPiece.getName());
+		    infoDesc1.setText(selectedPiece.getDesc1());
+		    infoDesc2.setText(selectedPiece.getDesc2());
+		    infoDesc3.setText(selectedPiece.getDesc3());
+		}
+		// Draws the board upside down, so that the player is on the botom. 
 		for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 		    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 			if (currPlayer.getBoard().board [i] [j].getModified())  {
@@ -255,6 +288,17 @@ public class BoardController {
 			    currPlayer.getBoard().board [i] [j].setModified(false);
 			}
 		    }
+		}
+		if (GameSettings.socket == null && GameSettings.twoComputers)  {
+		    try  {
+			Parent menu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
+			boardBackground.getScene().setRoot(menu);	
+		    }
+		    catch (Exception e)  {
+			System.out.println(e + " Returning to menu");
+		    }
+		    this.stop();
+		    return;
 		}
 		// TODO: Replace
 		// Redraw the options pool
@@ -266,49 +310,57 @@ public class BoardController {
         awaitMove.start();
 
 	redrawPool();
+
+	if (black.getIsLocal())  {
+	    currPlayer.getBoard().flip();
+	    black.getBoard().flip();
+	}
+	if (!GameSettings.twoComputers) white.getBoard().flip();
     }
 
     private class AwaitMove implements Runnable  { 	
         public void run ()  {
 	    if (!GameSettings.twoComputers) return;
 	    while (true)  {
-		// Not great style I know, but whatever
 		try  {
 		    newBoard = (Board)GameSettings.in.readObject();
+		    newBoard.flip();
+		    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+			for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+			    newBoard.board [i] [j].setModified(false);
+			    if (!newBoard.board [i] [j].getIcon(true).equals(currPlayer.getBoard().board [i] [j].getIcon(true)))  newBoard.board [i] [j].setModified(true);
+			}
+		    }
 		    currPlayer.setBoard((Board)newBoard.clone());
-		    if (currPlayer.getIsLocal())  {
-			System.out.println("CRITICAL SYNCRONIZATION ERROR");
-		    }
-		    if (currPlayer.getBoard().board == null || currPlayer.getIsLocal())  {
-			try  {
-			    GameSettings.out.close();
-			    GameSettings.in.close();
-			    GameSettings.socket.close();
-			    return;
-			}
-			catch (Exception ex)  {
-			    System.out.println(ex + " Returning to menu");
-			}
-			return;
-		    }
-			
 		}
 		catch (Exception e)  {
 		    System.out.println(e + " Reading board");
 		    try  {
-			GameSettings.out.close();
-			GameSettings.in.close();
-			GameSettings.socket.close();
-			return;
+			if (GameSettings.socket != null)  {
+			    GameSettings.out.close();
+			    GameSettings.in.close();
+			    GameSettings.socket.close();
+			    GameSettings.socket = null;
+			    if (GameSettings.server != null)  {
+				GameSettings.server.close();
+				GameSettings.server = null;
+			    }
+			}
 		    }
 		    catch (Exception ex)  {
-			System.out.println(ex + " Returning to menu");
+			System.out.println(ex + " Closing down server");
 		    }
+		    return;
 		}
+		// Resets the kingInPlay flag pre-emptively
+		white.setKingInPlay(false);
+		black.setKingInPlay(false);
+		white.setKingRank(-1);
+		black.setKingRank(-1);
+		// Perform upkeep on all pieces
 		for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 		    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
-			// If a piece is different
-			if (currPlayer.getBoard().board [i] [j].getId() != newBoard.board [i] [j].getId())  currPlayer.getBoard().board [i] [j].setModified(true);
+			currPlayer.getBoard().board [i] [j].upkeep();
 			// Set each piece to deselected and uncapturable
 			currPlayer.getBoard().board [i] [j].setSelected(false);
 			currPlayer.getBoard().board [i] [j].setCapturable(false);
@@ -330,6 +382,7 @@ public class BoardController {
 		white.setBoard((Board)currPlayer.getBoard().clone());
 		currPlayer = white;
 	    }
+	    if (!GameSettings.twoComputers)  currPlayer.getBoard().flip();
 	}
 	catch (Exception e)  {
 	    System.out.println(e + " Switching players");

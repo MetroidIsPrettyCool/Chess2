@@ -29,7 +29,7 @@ public class JoinController {
     @FXML
     void goBack(ActionEvent event) {
 	try  {
-	    Parent mainMenu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
+	    Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 	    backButton.getScene().setRoot(mainMenu);
 	}
 	catch (Exception e)  {
@@ -40,16 +40,15 @@ public class JoinController {
     @FXML
     void startGame(ActionEvent event) {
 	try  {
-		
 	    GameSettings.ip = InetAddress.getByName(ipInput.getText());
 	}
 	catch (Exception e)  {
 	    System.out.println(e);
 	    return;
 	}
-	if (GameSettings.out != null)  {
+	if (GameSettings.socket != null)  {
 	    try  {
-		Parent game = FXMLLoader.load(getClass().getResource("./board.fxml"));
+		Parent game = FXMLLoader.load(getClass().getResource("fxml/board.fxml"));
 		startButton.getScene().setRoot(game);
 	    }
 	    catch (Exception e)  {
@@ -66,13 +65,12 @@ public class JoinController {
         public void run ()  {
 	    try  {
 	        GameSettings.socket = new Socket(GameSettings.ip, GameSettings.port); 
-		System.out.println("Connected"); 
 
 		GameSettings.out = new ObjectOutputStream(GameSettings.socket.getOutputStream());
 		GameSettings.in = new ObjectInputStream(GameSettings.socket.getInputStream());
 	    }
 	    catch (Exception e)  {
-		System.out.println(e);
+		System.out.println(e + " Starting Client");
 		return;
 	    }
         } 
@@ -80,7 +78,7 @@ public class JoinController {
 
     @FXML
     public void initialize() {
-        background.setStyle("-fx-background-image:url('file:./textures/menu.png')");
+        background.setStyle("-fx-background-image:url('file:textures/menu.png')");
     }
     
 }

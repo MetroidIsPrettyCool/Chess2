@@ -29,7 +29,7 @@ public class MenuController {
     @FXML
     void hostGame(ActionEvent event)  {
 	try  {
-	    Parent game = FXMLLoader.load(getClass().getResource("./host.fxml"));
+	    Parent game = FXMLLoader.load(getClass().getResource("fxml/host.fxml"));
 	    hostButton.getScene().setRoot(game);
 	}
 	catch (Exception e)  {
@@ -40,7 +40,7 @@ public class MenuController {
     @FXML
     void joinGame(ActionEvent event) {
 	try  {
-	    Parent game = FXMLLoader.load(getClass().getResource("./join.fxml"));
+	    Parent game = FXMLLoader.load(getClass().getResource("fxml/join.fxml"));
 	    joinButton.getScene().setRoot(game);
 	}
 	catch (Exception e)  {
@@ -52,7 +52,7 @@ public class MenuController {
     @FXML
     void options (ActionEvent event)  {
 	try  {
-	    Parent game = FXMLLoader.load(getClass().getResource("./options.fxml"));
+	    Parent game = FXMLLoader.load(getClass().getResource("fxml/options.fxml"));
 	    optionsButton.getScene().setRoot(game);
 	}
 	catch (Exception e)  {
@@ -67,7 +67,7 @@ public class MenuController {
 
     @FXML
     public void initialize() {
-        background.setStyle("-fx-background-image:url('file:./textures/menu.png')");
+        background.setStyle("-fx-background-image:url('file:textures/menu.png')");
     }
 
 }

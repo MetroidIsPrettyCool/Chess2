@@ -15,24 +15,24 @@
       <VBox layoutX="400.0" prefHeight="400.0" prefWidth="200.0">
          <children>
             <ImageView fx:id="infoIcon" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="infoDesc0" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" text="QUEEN" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="infoDesc0" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Liberation Mono" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="infoDesc1" prefHeight="40.0" prefWidth="200.0" text=" - Moves in any direction,  as far as she wants" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="infoDesc1" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Liberation Mono" size="12.0" />
+                  <Font name="Liberation Mono" size="10.0" />
                </font>
             </Label>
-            <Label fx:id="infoDesc2" prefHeight="40.0" prefWidth="200.0" text=" - No special abilities" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="infoDesc2" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Liberation Mono" size="12.0" />
+                  <Font name="Liberation Mono" size="10.0" />
                </font>
             </Label>
-            <Label fx:id="infoDesc3" prefHeight="40.0" prefWidth="200.0" text=" - Costs 11⛭" textAlignment="CENTER">
+            <Label fx:id="infoDesc3" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Liberation Mono" size="12.0" />
+                  <Font name="Liberation Mono" size="10.0" />
                </font>
             </Label>
          </children>

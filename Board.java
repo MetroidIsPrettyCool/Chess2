@@ -2,29 +2,42 @@ import java.util.*;
 import java.io.*; 
 
 public class Board implements Cloneable, Serializable  {
-    public final int BOARDSIZE = 10;
     public Piece [] [] board;
     public String boardImage;
     public Board (String img)  {
-	this.board = new Piece [BOARDSIZE] [BOARDSIZE];
-	for (int i = BOARDSIZE - 1; i > BOARDSIZE - 3; i--)  {
-	    for (int j = 0; j != BOARDSIZE; j++)  {
-		this.board [i] [j] = new UnknownPiece(i, j, 1);
-	    }
-	}
-	for (int i = BOARDSIZE - 3; i > 1; i--)  {
-	    for (int j = 0; j != BOARDSIZE; j++)  {
+	this.board = new Piece [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
+	for (int i = 0; i < GameSettings.BOARDSIZE; i++)  {
+	    for (int j = 0; j < GameSettings.BOARDSIZE; j++)  {
 		this.board [i] [j] = new BlankPiece(i, j);
 	    }
 	}
-	for (int i = 1; i >= 0; i--)  {
-	    for (int j = 0; j != BOARDSIZE; j++)  {
-		this.board [i] [j] = new UnknownPiece(i, j, 0);
+	this.board [1] [5] = new King (1, 5, 1);
+	this.board [1] [4] = new Fortress (1, 4, 1);
+	this.board [8] [4] = new King (8, 4, 0);
+	this.board [8] [5] = new Fortress (8, 5, 0);
+	boardImage = img;
+    }
+    public void flip ()  {
+	Piece [] [] temp = new Piece [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
+	for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+	    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+		temp [i] [j] = this.board [GameSettings.BOARDSIZE - i - 1] [GameSettings.BOARDSIZE - j - 1];
 	    }
 	}
-	this.board [0] [5] = new King (0, 5, 0);
-	this.board [9] [4] = new King (9, 4, 1);
-	boardImage = img;
+	for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+	    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+		try  {
+		    temp [i] [j].setModified(false);
+		    if (!temp [i] [j].equals(this.board [i] [j]))  temp [i] [j].setModified(true);
+		    this.board [i] [j] = (Piece)temp [i] [j].clone();
+		    this.board [i] [j].setX(i);
+		    this.board [i] [j].setY(j);
+		}
+		catch (Exception e)  {
+		    System.out.println(e + " Flipping Board");
+		}
+	    }
+	}
     }
     public Object clone () throws CloneNotSupportedException  { 
         return super.clone(); 

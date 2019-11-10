@@ -5,16 +5,25 @@ public class Player  {
     private int score = 0;
     private int kingRank;
     private Board board = new Board ("board.png");
-    public Piece [] allPieces = new Piece [6];
+    public Piece [] allPieces = new Piece [15];
     public Player (Boolean isWhite, Boolean isLocal)  {
 	this.isWhite = isWhite;
 	this.isLocal = isLocal;
-	allPieces [0] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
-	allPieces [1] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
-	allPieces [2] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
-	allPieces [3] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
-	allPieces [4] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
-	allPieces [5] = new UnknownPiece (0,0, (isWhite ? 0 : 1));
+	allPieces [0] = new Pawn (0,0, (isWhite ? 0 : 1));
+	allPieces [1] = new Knight (0,0, (isWhite ? 0 : 1));
+	allPieces [2] = new Bishop (0,0, (isWhite ? 0 : 1));
+	allPieces [3] = new Rook (0,0, (isWhite ? 0 : 1));
+	allPieces [4] = new Queen (0,0, (isWhite ? 0 : 1));
+	allPieces [5] = new King (0,0, (isWhite ? 0 : 1));
+	allPieces [6] = new Fortress (0,0, (isWhite ? 0 : 1));
+	allPieces [7] = new Barrier (0,0, (isWhite ? 0 : 1));
+	allPieces [8] = new Archer (0,0, (isWhite ? 0 : 1));
+	allPieces [9] = new Cannon (0,0, (isWhite ? 0 : 1));
+	allPieces [10] = new Elephant (0,0, (isWhite ? 0 : 1));
+	allPieces [11] = new Hawk (0,0, (isWhite ? 0 : 1));
+	allPieces [12] = new Ram (0,0, (isWhite ? 0 : 1));
+	allPieces [13] = new Jester (0,0, (isWhite ? 0 : 1));
+	allPieces [14] = new Trebuchet (0,0, (isWhite ? 0 : 1));
 	kingRank = (this.isWhite ? 0 : 9); 
     }
     public void setIsWhite (boolean isWhite)  {
@@ -48,7 +57,7 @@ public class Player  {
 	return this.kingRank;
     }
     public void setBoard (Board newBoard)  {
-        this.board = newBoard;
+	this.board = newBoard;
     }
     public Board getBoard ()  {
 	return this.board;

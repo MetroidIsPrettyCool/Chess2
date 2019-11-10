@@ -21,7 +21,7 @@ public class Main extends Application  {
        	MusicController musicThread = new MusicController();
 	musicThread.start();
         // Create the Pane and all Details
-	Parent mainMenu = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+	Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
         scene = new Scene (mainMenu);
         stage.setScene(scene);
         // Set the Title to the Stage
@@ -34,14 +34,21 @@ public class Main extends Application  {
 	scene.setOnKeyPressed(e -> {
 		if (e.getCode() == KeyCode.ESCAPE) {
 		    try  {
-			Parent menu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
+			Parent menu = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"));
 			scene.setRoot(menu);
-			GameSettings.out.close();
-			GameSettings.in.close();
-			GameSettings.socket.close();
+		        if (GameSettings.twoComputers && GameSettings.socket != null)  {
+			    GameSettings.out.close();
+			    GameSettings.in.close();
+			    GameSettings.socket.close();
+			    GameSettings.socket = null;
+			    if (GameSettings.server != null)  {
+				GameSettings.server.close();
+				GameSettings.server = null;
+			    }
+			}
 		    }
 		    catch (Exception ex)  {
-			System.out.println(ex);
+			System.out.println(ex + " Exiting Game");
 		    }
 		}
 	    }

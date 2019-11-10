@@ -4,7 +4,7 @@ import java.io.*;
 public class GameSettings  {
     public static final int BOARDSIZE = 10;
     public static int gameMode;
-    public static int port = 5069;
+    public static int port = 42069;
     public static InetAddress ip = null;
     public static ServerSocket server = null;
     public static Socket socket;

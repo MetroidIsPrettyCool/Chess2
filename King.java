@@ -1,14 +1,15 @@
 import java.util.Arrays;
 public class King extends Piece  {
     public King ()  {
-	super(0, 0, 6, 10, "king", "King", "King piece", "Same as normal chess", "More or less", 0);
+	super(0, 0, 6, 20, "king", "King", "King piece", "Same as normal chess", "More or less", 0);
     }
     public King (int px, int py, int pcolor)  {
-	super(px, py, 6, 10, "king", "King", "King piece", "Same as normal chess", "More or less", pcolor);
+	super(px, py, 6, 20, "king", "King", "King piece", "Same as normal chess", "More or less", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
 	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
+	if (BoardController.currPlayer.getScore() < 5)  return null;
 	for (int i = this.x - 1; i <= this.x + 1; i++)  {
 	    for (int j = this.y - 1; j <= this.y + 1; j++)  {
 		if (i >= 0 && GameSettings.BOARDSIZE > i && j >= 0 && GameSettings.BOARDSIZE > j)
@@ -19,8 +20,22 @@ public class King extends Piece  {
 	return moves;
     }
     @Override
-    public boolean canBeCaptured (Piece p)  {
-	return true;
+    public Board makeMove (Board board, Piece d)  {
+	Board newBoard;
+	try  {
+	    newBoard = (Board)board.clone();
+	    newBoard.board [d.getX()] [d.getY()] = (Piece)this.clone();
+	    newBoard.board [d.getX()] [d.getY()].setX(d.getX());
+	    newBoard.board [d.getX()] [d.getY()].setY(d.getY());
+	    newBoard.board [d.getX()] [d.getY()].setModified(true);
+	    newBoard.board [this.getX()] [this.getY()] = new BlankPiece (this.getX(), this.getY());
+	}
+	catch (Exception e)  {
+	    System.out.println(e + " Moving piece");
+	    return null;
+	}
+	BoardController.currPlayer.setScore(BoardController.currPlayer.getScore() - 5);
+	return newBoard;
     }
     @Override
     public void upkeep ()  {
