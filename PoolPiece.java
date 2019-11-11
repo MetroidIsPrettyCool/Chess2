@@ -1,4 +1,5 @@
 import java.io.*;
+import javafx.scene.image.Image;
 public class PoolPiece extends Piece  {
     Piece becomes;
     public PoolPiece (Piece p)  {
@@ -13,7 +14,7 @@ public class PoolPiece extends Piece  {
     @Override
     public String getIcon (boolean selectable)  {
 	// Never is going to be in an instance where a PoolPiece is selected or capturable, that would be MADNESS
-	return new File ("textures/" + GameSettings.pieceTexture + "/" + this.becomes.icon + "_" + colors [color] + ".png").toURI().toString();
+	return this.becomes.getIcon(false);
     }
     @Override
     public boolean canCapture (Piece p)  {

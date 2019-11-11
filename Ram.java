@@ -1,9 +1,9 @@
 public class Ram extends Piece  {
     public Ram ()  {
-	super(0, 0, 13, 5, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", 0);
+	super(0, 0, 13, 3, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", 0);
     }
     public Ram (int px, int py, int pcolor)  {
-	super(px, py, 13, 5, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", pcolor);
+	super(px, py, 13, 3, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {

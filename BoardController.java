@@ -119,8 +119,10 @@ public class BoardController {
 		currPlayer.getBoard().board [i] [j].setCapturable(false);
 	    }
 	}
-	selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
-	if (currPlayer.allPieces [optionOffset + off].getCost() <= currPlayer.getScore() && selectedPiece.getPossibleMoves(currPlayer.getBoard()) != null)  {
+	if (!GameSettings.twoComputers)  selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
+	else if (white.getIsLocal())  selectedPiece = new PoolPiece(white.allPieces [optionOffset + off]);
+	else  selectedPiece = new PoolPiece(black.allPieces [optionOffset + off]);
+	if (currPlayer.getIsLocal() && currPlayer.allPieces [optionOffset + off].getCost() <= currPlayer.getScore() && selectedPiece.getPossibleMoves(currPlayer.getBoard()) != null)  {
 	    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 		for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 		    if (selectedPiece.getPossibleMoves(currPlayer.getBoard()) [i] [j] == 1)  {

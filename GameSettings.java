@@ -3,6 +3,7 @@ import java.io.*;
 
 public class GameSettings  {
     public static final int BOARDSIZE = 10;
+    public static final int IMAGESIZE = 40;
     public static int gameMode;
     public static int port = 42069;
     public static InetAddress ip = null;

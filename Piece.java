@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import javafx.scene.image.Image;
 
 public class Piece implements Cloneable, Serializable {
     boolean promoted = false, selected = false, capturable = false, modified = true;

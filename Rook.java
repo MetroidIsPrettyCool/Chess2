@@ -1,9 +1,9 @@
 public class Rook extends Piece  {
     public Rook ()  {
-	super(0, 0, 4, 5, "rook", "Rook", "AKA Castle", "Can't castle", "words words words", 0);
+	super(0, 0, 4, 4, "rook", "Rook", "AKA Castle", "Can't castle", "words words words", 0);
     }
     public Rook (int px, int py, int pcolor)  {
-	super(px, py, 4, 5, "rook", "Rook", "AKA Castle", "Can't castle", "words words words", pcolor);
+	super(px, py, 4, 4, "rook", "Rook", "AKA Castle", "Can't castle", "words words words", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {

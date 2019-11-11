@@ -1,9 +1,9 @@
 public class Queen extends Piece  {
     public Queen ()  {
-	super(0, 0, 5, 10, "queen", "Queen", "Queen-like", "Mayonaise", "words words words words words", 0);
+	super(0, 0, 5, 9, "queen", "Queen", "Queen-like", "Mayonaise", "words words words words words", 0);
     }
     public Queen (int px, int py, int pcolor)  {
-	super(px, py, 5, 10, "queen", "Queen", "Queen-like", "Mayonaise", "words words words words words", pcolor);
+	super(px, py, 5, 9, "queen", "Queen", "Queen-like", "Mayonaise", "words words words words words", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
