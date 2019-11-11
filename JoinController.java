@@ -38,6 +38,8 @@ public class JoinController {
 	}
     }
 
+    private boolean connectionFailure = false;
+
     @FXML
     void startGame(ActionEvent event) {
 	try  {
@@ -57,6 +59,9 @@ public class JoinController {
 	    }
 	    return;
 	}
+	startButton.setText("Connecting...");
+	startButton.setDisable(true);
+	connectionFailure = false;
 	Thread initClient = new Thread(new JoinController ().new StartClient ()); 
         initClient.start();
     }
@@ -72,6 +77,7 @@ public class JoinController {
 	    }
 	    catch (Exception e)  {
 		System.out.println(e + " Starting Client");
+		connectionFailure = true;
 		return;
 	    }
         } 
@@ -83,7 +89,13 @@ public class JoinController {
 	new AnimationTimer() {
             @Override
             public void handle(long now) {
+		if (connectionFailure && startButton.isDisabled())  {
+		    startButton.setText("Connect!");
+		    startButton.setDisable(false);
+		    connectionFailure = false;
+		}
 	        if (GameSettings.socket != null)  {
+		    startButton.setDisable(false);
 		    startButton.setText("Start!");
 		    this.stop();
 		}

@@ -312,7 +312,7 @@ public class BoardController {
 		}
 		if (GameSettings.socket == null && GameSettings.twoComputers)  {
 		    try  {
-			Parent menu = FXMLLoader.load(getClass().getResource("./mainMenu.fxml"));
+			Parent menu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 			boardBackground.getScene().setRoot(menu);	
 		    }
 		    catch (Exception e)  {

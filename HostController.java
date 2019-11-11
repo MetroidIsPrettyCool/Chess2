@@ -81,6 +81,8 @@ public class HostController {
 	
 	if (GameSettings.socket != null || GameSettings.twoComputers == false)  {
 	    try  {
+		startButton.setText("Loading...");
+		startButton.setDisable(true);
 		Parent game = FXMLLoader.load(getClass().getResource("fxml/board.fxml"));
 		startButton.getScene().setRoot(game);
 	    }
@@ -91,6 +93,8 @@ public class HostController {
 	}
 	
 	if (GameSettings.twoComputers == true)  {
+	    startButton.setText("Waiting...");
+	    startButton.setDisable(true);
 	    Thread initServer = new Thread(new HostController ().new StartServer ()); 
 	    initServer.start();
 	}
@@ -126,6 +130,7 @@ public class HostController {
             @Override
             public void handle(long now) {
 	        if (GameSettings.socket != null)  {
+		    startButton.setDisable(false);
 		    startButton.setText("Start!");
 		    this.stop();
 		}
