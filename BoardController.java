@@ -1,5 +1,5 @@
 import java.net.URI;
-import java.io.EOFException;
+import java.io.*;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.event.*;
@@ -158,6 +158,26 @@ public class BoardController {
      
     @FXML
     public void initialize ()  {
+	// TODO: Move somewhere else
+	GameSettings.icons [ 1] = new Texture("pawn");
+	GameSettings.icons [ 2] = new Texture("knight");
+	GameSettings.icons [ 3] = new Texture("bishop");
+	GameSettings.icons [ 4] = new Texture("rook");
+	GameSettings.icons [ 5] = new Texture("queen");
+	GameSettings.icons [ 6] = new Texture("king");
+	GameSettings.icons [ 7] = new Texture("fortress");
+	GameSettings.icons [ 8] = new Texture("barrier");
+	GameSettings.icons [ 9] = new Texture("archer");
+	GameSettings.icons [10] = new Texture("cannon");
+	GameSettings.icons [11] = new Texture("elephant");
+	GameSettings.icons [12] = new Texture("hawk");
+	GameSettings.icons [13] = new Texture("ram");
+	GameSettings.icons [14] = new Texture("jester");
+	GameSettings.icons [15] = new Texture("trebuchet");
+	GameSettings.blankIcons [0] = new Image(new File("./textures/" + GameSettings.pieceTexture + "/blank_.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	GameSettings.blankIcons [1] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_c.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	GameSettings.blankIcons [2] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_s.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	GameSettings.blankIcons [3] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_.png").toURI().toString());
 	// White and black players. first arg is if they player is white, second is if the player is local
 	white = new Player(true, (GameSettings.server != null) || !GameSettings.twoComputers);
 	black = new Player(false, !((!GameSettings.twoComputers) ^ (GameSettings.server != null)) || !GameSettings.twoComputers);
