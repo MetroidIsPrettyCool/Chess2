@@ -250,13 +250,13 @@ public class BoardController {
         for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 	    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 		try  {
-		    images [i] [j] = new ImageView (new Image (currPlayer.getBoard().board [i] [j].getIcon(true), 40, 40, false, false, true));
+		    images [i] [j] = new ImageView (currPlayer.getBoard().board [i] [j].getIcon(true, false));
 		    images [i] [j].setPickOnBounds(true);
 		    pane.add(images [i] [j], j, i);
 		    getNodeFromGridPane(pane, i, j).addEventFilter(MouseEvent.MOUSE_CLICKED, squareClicked);
 		}
 		catch (Exception e)  {
-		    System.out.println(e + " loading piece icon " + currPlayer.getBoard().board [i] [j].getIcon(true));
+		    System.out.println(e + " loading piece icon " + currPlayer.getBoard().board [i] [j].getIcon(true, false));
 		}
 	    }
 	}
@@ -276,17 +276,16 @@ public class BoardController {
 		    }
 		}
 		if (selectedPiece != null && selectedPiece.getModified())  {
-		    infoIcon.setImage(new Image(selectedPiece.getIcon(false)));
+		    infoIcon.setImage(selectedPiece.getIcon(false, true));
 		    infoDesc0.setText(selectedPiece.getName());
 		    infoDesc1.setText(selectedPiece.getDesc1());
 		    infoDesc2.setText(selectedPiece.getDesc2());
 		    infoDesc3.setText(selectedPiece.getDesc3());
 		}
-		// Draws the board upside down, so that the player is on the botom. 
 		for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 		    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 			if (currPlayer.getBoard().board [i] [j].getModified())  {
-			    images [i] [j].setImage(new Image (currPlayer.getBoard().board [i] [j].getIcon(true), 40, 40, false, false, true));
+			    images [i] [j].setImage(currPlayer.getBoard().board [i] [j].getIcon(true, false));
 			    currPlayer.getBoard().board [i] [j].setModified(false);
 			}
 		    }
@@ -330,7 +329,7 @@ public class BoardController {
 		    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 			for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
 			    newBoard.board [i] [j].setModified(false);
-			    if (!newBoard.board [i] [j].getIcon(true).equals(currPlayer.getBoard().board [i] [j].getIcon(true)))  newBoard.board [i] [j].setModified(true);
+			    if (!newBoard.board [i] [j].getIcon(true, false).equals(currPlayer.getBoard().board [i] [j].getIcon(true, false)))  newBoard.board [i] [j].setModified(true);
 			}
 		    }
 		    currPlayer.setBoard((Board)newBoard.clone());
@@ -396,41 +395,41 @@ public class BoardController {
     private void redrawPool ()  {
 	if (!GameSettings.twoComputers)  {
 	    pointsDisplay.setText(currPlayer.getScore() + " / 20 \u20bf");
-	    poolOption1.setImage(new Image (currPlayer.allPieces [optionOffset].getIcon(false)));
+	    poolOption1.setImage(currPlayer.allPieces [optionOffset].getIcon(false, true));
 	    option1Cost.setText("" + currPlayer.allPieces [optionOffset].getCost());
-	    poolOption2.setImage(new Image (currPlayer.allPieces [optionOffset + 1].getIcon(false)));
+	    poolOption2.setImage(currPlayer.allPieces [optionOffset + 1].getIcon(false, true));
 	    option2Cost.setText("" + currPlayer.allPieces [optionOffset + 1].getCost());
-	    poolOption3.setImage(new Image (currPlayer.allPieces [optionOffset + 2].getIcon(false)));
+	    poolOption3.setImage(currPlayer.allPieces [optionOffset + 2].getIcon(false, true));
 	    option3Cost.setText("" + currPlayer.allPieces [optionOffset + 2].getCost());
-	    poolOption4.setImage(new Image (currPlayer.allPieces [optionOffset + 3].getIcon(false)));
+	    poolOption4.setImage(currPlayer.allPieces [optionOffset + 3].getIcon(false, true));
 	    option4Cost.setText("" + currPlayer.allPieces [optionOffset + 3].getCost());
-	    poolOption5.setImage(new Image (currPlayer.allPieces [optionOffset + 4].getIcon(false)));
+	    poolOption5.setImage(currPlayer.allPieces [optionOffset + 4].getIcon(false, true));
 	    option5Cost.setText("" + currPlayer.allPieces [optionOffset + 4].getCost());
 	}
 	else if (white.getIsLocal())  {
 	    pointsDisplay.setText(white.getScore() + " / 20 \u20bf");
-	    poolOption1.setImage(new Image (white.allPieces [optionOffset].getIcon(false)));
+	    poolOption1.setImage(white.allPieces [optionOffset].getIcon(false, true));
 	    option1Cost.setText("" + white.allPieces [optionOffset].getCost());
-	    poolOption2.setImage(new Image (white.allPieces [optionOffset + 1].getIcon(false)));
+	    poolOption2.setImage(white.allPieces [optionOffset + 1].getIcon(false, true));
 	    option2Cost.setText("" + white.allPieces [optionOffset + 1].getCost());
-	    poolOption3.setImage(new Image (white.allPieces [optionOffset + 2].getIcon(false)));
+	    poolOption3.setImage(white.allPieces [optionOffset + 2].getIcon(false, true));
 	    option3Cost.setText("" + white.allPieces [optionOffset + 2].getCost());
-	    poolOption4.setImage(new Image (white.allPieces [optionOffset + 3].getIcon(false)));
+	    poolOption4.setImage(white.allPieces [optionOffset + 3].getIcon(false, true));
 	    option4Cost.setText("" + white.allPieces [optionOffset + 3].getCost());
-	    poolOption5.setImage(new Image (white.allPieces [optionOffset + 4].getIcon(false)));
+	    poolOption5.setImage(white.allPieces [optionOffset + 4].getIcon(false, true));
 	    option5Cost.setText("" + white.allPieces [optionOffset + 4].getCost());
 	}
 	else  {
 	    pointsDisplay.setText(black.getScore() + " / 20 \u20bf");
-	    poolOption1.setImage(new Image (black.allPieces [optionOffset].getIcon(false)));
+	    poolOption1.setImage(black.allPieces [optionOffset].getIcon(false, true));
 	    option1Cost.setText("" + black.allPieces [optionOffset].getCost());
-	    poolOption2.setImage(new Image (black.allPieces [optionOffset + 1].getIcon(false)));
+	    poolOption2.setImage(black.allPieces [optionOffset + 1].getIcon(false, true));
 	    option2Cost.setText("" + black.allPieces [optionOffset + 1].getCost());
-	    poolOption3.setImage(new Image (black.allPieces [optionOffset + 2].getIcon(false)));
+	    poolOption3.setImage(black.allPieces [optionOffset + 2].getIcon(false, true));
 	    option3Cost.setText("" + black.allPieces [optionOffset + 2].getCost());
-	    poolOption4.setImage(new Image (black.allPieces [optionOffset + 3].getIcon(false)));
+	    poolOption4.setImage(black.allPieces [optionOffset + 3].getIcon(false, true));
 	    option4Cost.setText("" + black.allPieces [optionOffset + 3].getCost());
-	    poolOption5.setImage(new Image (black.allPieces [optionOffset + 4].getIcon(false)));
+	    poolOption5.setImage(black.allPieces [optionOffset + 4].getIcon(false, true));
 	    option5Cost.setText("" + black.allPieces [optionOffset + 4].getCost());
 	}
     }

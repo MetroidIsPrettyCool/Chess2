@@ -12,9 +12,9 @@ public class PoolPiece extends Piece  {
 	this.setCost(this.becomes.getCost());
     }
     @Override
-    public String getIcon (boolean selectable)  {
+    public Image getIcon (boolean selectable, boolean big)  {
 	// Never is going to be in an instance where a PoolPiece is selected or capturable, that would be MADNESS
-	return this.becomes.getIcon(false);
+	return this.becomes.getIcon(false, big);
     }
     @Override
     public boolean canCapture (Piece p)  {

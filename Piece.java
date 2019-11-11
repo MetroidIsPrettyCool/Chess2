@@ -4,6 +4,7 @@ import java.net.*;
 import javafx.scene.image.Image;
 
 public class Piece implements Cloneable, Serializable {
+    Image nicon, sicon, cicon, bicon;
     boolean promoted = false, selected = false, capturable = false, modified = true;
     int x, y, id, cost, color;
     String icon, name, desc1, desc2, desc3;
@@ -20,6 +21,10 @@ public class Piece implements Cloneable, Serializable {
 	this.desc2 = pdesc2;
 	this.desc3 = pdesc3;
 	this.color = pcolor;
+	this.nicon = new Image(new File("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.cicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_c" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.sicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_s" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.bicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString());
     }
     public int getX ()  {
 	return this.x;
@@ -51,12 +56,20 @@ public class Piece implements Cloneable, Serializable {
     public void setColor (int pcolor)  {
 	this.color = pcolor;
     }
-    public String getIcon (boolean selectable)  {
-	if (selectable)  return new File ("textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + (this.capturable ? "c" : "") + (this.selected ? "s" : "") + colors [color] + ".png").toURI().toString();
-	return new File ("textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString();
+    public Image getIcon (boolean selectable, boolean big)  {
+	// "textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + (this.capturable ? "c" : "") + (this.selected ? "s" : "") + colors [color] + ".png"
+	// new Image (currPlayer.getBoard().board [i] [j].getIcon(true), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	if (big)  return this.bicon;
+        if (this.selected)  return this.sicon;
+	if (this.capturable)  return this.cicon;
+	return this.nicon;
     }
     public void setIcon (String picon)  {
 	this.icon = picon;
+	this.nicon = new Image(new File("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.cicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_c" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.sicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_s" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	this.bicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString());
     }
     public String getName ()  {
 	return this.name;
