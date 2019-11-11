@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -79,6 +80,15 @@ public class JoinController {
     @FXML
     public void initialize() {
         background.setStyle("-fx-background-image:url('file:textures/menu.png')");
+	new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+	        if (GameSettings.socket != null)  {
+		    startButton.setText("Start!");
+		    this.stop();
+		}
+	    }
+        }.start();
     }
     
 }

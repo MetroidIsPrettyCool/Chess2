@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -47,11 +48,13 @@ public class HostController {
     @FXML
     void playerTwoIsRemote(ActionEvent event) {
 	GameSettings.twoComputers = true;
+	startButton.setText("Start Server!");
     }
 
     @FXML
     void playerTwoIsLocal(ActionEvent event) {
 	GameSettings.twoComputers = false;
+	startButton.setText("Start!");
     }
     
     @FXML
@@ -82,6 +85,7 @@ public class HostController {
 		startButton.getScene().setRoot(game);
 	    }
 	    catch (Exception e)  {
+		System.out.println(e + " Starting Game");
 	    }
 	    return;
 	}
@@ -118,5 +122,14 @@ public class HostController {
 	final ToggleGroup group = new ToggleGroup();
 	p2rButton.setToggleGroup(group);
 	p2lButton.setToggleGroup(group);
+	new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+	        if (GameSettings.socket != null)  {
+		    startButton.setText("Start!");
+		    this.stop();
+		}
+	    }
+        }.start();
     }
 }

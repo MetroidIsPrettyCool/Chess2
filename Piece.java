@@ -2,9 +2,13 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 public class Piece implements Cloneable, Serializable {
-    Image nicon, sicon, cicon, bicon;
+    transient Image nicon = null, sicon = null, cicon = null, bicon = null, temp = null;
     boolean promoted = false, selected = false, capturable = false, modified = true;
     int x, y, id, cost, color;
     String icon, name, desc1, desc2, desc3;
@@ -15,16 +19,28 @@ public class Piece implements Cloneable, Serializable {
 	this.y = py;
 	this.id = pid;
 	this.cost = pcost;
-	this.icon = picon;
+	this.icon = "textures/" + GameSettings.pieceTexture + "/" + picon + "_" + this.colors[pcolor] + ".png";
 	this.name = pname;
 	this.desc1 = pdesc1;
 	this.desc2 = pdesc2;
 	this.desc3 = pdesc3;
 	this.color = pcolor;
-	this.nicon = new Image(new File("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.cicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_c" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.sicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_s" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.bicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString());
+	if (picon != null)  {
+	    this.nicon = new Image(new File(this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.cicon = new Image(new File (this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.sicon = new Image(new File (this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.bicon = new Image(new File (this.icon).toURI().toString());
+	    if (this.color == 0)  {
+		this.nicon = reColor(this.nicon, Color.MAGENTA, Color.BLACK);
+		this.bicon = reColor(this.bicon, Color.MAGENTA, Color.BLACK);
+	    }
+	    if (this.color == 1)  {
+		this.nicon = reColor(this.nicon, Color.MAGENTA, Color.WHITE);
+		this.bicon = reColor(this.bicon, Color.MAGENTA, Color.WHITE);
+	    }
+	    this.sicon = reColor(this.sicon, Color.MAGENTA, Color.BLUE);
+	    this.cicon = reColor(this.cicon, Color.MAGENTA, Color.GREEN);
+	}
     }
     public int getX ()  {
 	return this.x;
@@ -57,19 +73,30 @@ public class Piece implements Cloneable, Serializable {
 	this.color = pcolor;
     }
     public Image getIcon (boolean selectable, boolean big)  {
-	// "textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + (this.capturable ? "c" : "") + (this.selected ? "s" : "") + colors [color] + ".png"
-	// new Image (currPlayer.getBoard().board [i] [j].getIcon(true), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
+	// if this.setIcon(this.icon);
 	if (big)  return this.bicon;
         if (this.selected)  return this.sicon;
 	if (this.capturable)  return this.cicon;
 	return this.nicon;
     }
     public void setIcon (String picon)  {
-	this.icon = picon;
-	this.nicon = new Image(new File("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.cicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_c" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.sicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_s" + colors [color] + ".png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false, true);
-	this.bicon = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/" + this.icon + "_" + colors [color] + ".png").toURI().toString());
+	if (picon != null)  {
+	    this.icon = picon;
+	    this.nicon = new Image(new File(this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.cicon = new Image(new File (this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.sicon = new Image(new File (this.icon).toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
+	    this.bicon = new Image(new File (this.icon).toURI().toString());
+	    if (this.color == 0)  {
+		this.nicon = reColor(this.nicon, Color.MAGENTA, Color.BLACK);
+		this.bicon = reColor(this.bicon, Color.MAGENTA, Color.BLACK);
+	    }
+	    if (this.color == 1)  {
+		this.nicon = reColor(this.nicon, Color.MAGENTA, Color.WHITE);
+		this.bicon = reColor(this.bicon, Color.MAGENTA, Color.WHITE);
+	    }
+	    this.sicon = reColor(this.sicon, Color.MAGENTA, Color.BLUE);
+	    this.cicon = reColor(this.cicon, Color.MAGENTA, Color.LIME);
+	}
     }
     public String getName ()  {
 	return this.name;
@@ -152,7 +179,46 @@ public class Piece implements Cloneable, Serializable {
     public void upkeep ()  {
 	// Does nothing by default, needed for a couple special pieces (like the king)
     }
-    public Object clone () throws CloneNotSupportedException  { 
+    public Object clone () throws CloneNotSupportedException  {
+	if (GameSettings.twoComputers)  this.setIcon(this.icon);
         return super.clone(); 
-    } 
+    }
+    // Copied from Stack Overflow
+    // If it works, it works
+    private Image reColor(Image inputImage, Color oldColor, Color newColor) {
+	try  {
+	    int height = (int) inputImage.getHeight();
+	    int width = (int) inputImage.getWidth();
+	    WritableImage outputImage = new WritableImage(width, height);
+	    PixelReader reader = inputImage.getPixelReader();
+	    PixelWriter writer = outputImage.getPixelWriter();
+	    int oldBlue = (int)(oldColor.getBlue() * 255);
+	    int oldRed = (int)(oldColor.getRed() * 255);
+	    int oldGreen = (int)(oldColor.getGreen() * 255);
+	    int newBlue = (int)(newColor.getBlue() * 255);
+	    int newRed = (int)(newColor.getRed() * 255);
+	    int newGreen = (int)(newColor.getGreen() * 255);
+	    for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+		    int argb = reader.getArgb(i, j);
+		    int alpha = (argb >> 24) & 0xFF;
+		    int red = (argb >> 16) & 0xFF;
+		    int green = (argb >> 8) & 0xFF;
+		    int blue =  argb & 0xFF;
+		    if (red == oldRed && green == oldGreen && blue == oldBlue) {
+			red = newRed;
+			green = newGreen;
+			blue = newBlue;
+		    }
+		    argb = (alpha << 24) | (red << 16) | (green << 8) | blue;
+		    writer.setArgb(i, j, argb);
+		}
+	    }
+	    return outputImage;
+	}
+	catch (Exception e)  {
+	    System.out.println(e + " ReColoring image");
+	}
+	return (Image)inputImage;
+    }
 }

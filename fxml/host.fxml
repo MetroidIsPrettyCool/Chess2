@@ -16,7 +16,7 @@
       <RadioButton fx:id="p2rButton" layoutX="100.0" layoutY="196.0" mnemonicParsing="false" onAction="#playerTwoIsRemote" selected="true" text="2 Computers" textFill="WHITE" />
       <RadioButton fx:id="p2lButton" layoutX="416.0" layoutY="196.0" mnemonicParsing="false" onAction="#playerTwoIsLocal" text="1 Computer" textFill="WHITE" />
       <Button fx:id="backButton" layoutY="2.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-      <Button fx:id="startButton" layoutX="100.0" layoutY="213.0" mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="400.0" text="Start!">
+      <Button fx:id="startButton" layoutX="100.0" layoutY="213.0" mnemonicParsing="false" onAction="#startGame" prefHeight="60.0" prefWidth="400.0" text="Start Server!">
          <font>
             <Font size="24.0" />
          </font>
