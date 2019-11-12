@@ -54,4 +54,8 @@ public class Main extends Application  {
 	    }
 	    );
     }
+    @Override
+    public void stop ()  {
+	MusicController.exit = true;
+    }
 }

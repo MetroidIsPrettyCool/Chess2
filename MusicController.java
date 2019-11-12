@@ -4,8 +4,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;  
 import java.io.*;
 
-public class MusicController extends Thread 
-{ 
+public class MusicController extends Thread  {
+    public static boolean exit = false;
     public void run ()  {
 	synchronized (this)  {
 	    File musicFolder;
@@ -26,7 +26,10 @@ public class MusicController extends Thread
 		    songPlayer.play();
 		    wait(1000);
 		    // Gives the media object time to laod the duration of the music
-		    wait((long)songMedia.getDuration().toMillis());
+		    for (long i = 0; i != (long)songMedia.getDuration().toMillis(); i++)  {
+			wait(1);
+			if (this.exit)  return;
+		    }
 		}
 	    }
 	    catch (Exception e)  {
