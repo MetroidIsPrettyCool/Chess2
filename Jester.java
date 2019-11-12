@@ -30,21 +30,7 @@ public class Jester extends Piece  {
 	return moves;
     }
     @Override
-    public Board makeMove (Board board, Piece d)  {
-	Board newBoard;
+    public void afterMove (Board board, Piece p)  {
 	this.moveMode = !this.moveMode;
-	try  {
-	    newBoard = (Board)board.clone();
-	    newBoard.board [d.getX()] [d.getY()] = (Piece)this.clone();
-	    newBoard.board [d.getX()] [d.getY()].setX(d.getX());
-	    newBoard.board [d.getX()] [d.getY()].setY(d.getY());
-	    newBoard.board [d.getX()] [d.getY()].setModified(true);
-	    newBoard.board [this.getX()] [this.getY()] = new BlankPiece (this.getX(), this.getY());
-	}
-	catch (Exception e)  {
-	    System.out.println(e + " Moving piece");
-	    return null;
-	}
-	return newBoard;
     }
 }

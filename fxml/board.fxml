@@ -109,6 +109,13 @@
                <font>
                   <Font name="Impact" size="39.0" />
                </font>
+               <tooltip>
+                  <Tooltip prefHeight="100.0" prefWidth="400.0" text="Score is calculated as the row number of the furthest back king divided by 2 ounded down. (The row closest to the player is #0, the next is #1, the furthest is #9)" wrapText="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
             </Label>
          </children>
       </HBox>

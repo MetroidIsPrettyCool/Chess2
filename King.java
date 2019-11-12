@@ -1,7 +1,7 @@
 import java.util.Arrays;
 public class King extends Piece  {
     public King ()  {
-	super(0, 0, 6, 20, "king", "King", "King piece", "Same as normal chess", "More or less", 0);
+	super(0, 0, 6, 20, "king", "King", "Costs 5 to move", "Allows you to place pieces behind and at the same rank", "Furthest back king is used to calculate where pieces can be placed", 0);
     }
     public King (int px, int py, int pcolor)  {
 	super(px, py, 6, 20, "king", "King", "King piece", "Same as normal chess", "More or less", pcolor);

@@ -7,10 +7,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 public class Texture  {
-    Image whiteDefaultIcon = null, whiteCapturableIcon = null, whiteSelectedIcon = null, whiteBigIcon = null;
-    String whiteIcon = null;
-    Image blackDefaultIcon = null, blackCapturableIcon = null, blackSelectedIcon = null, blackBigIcon = null;
-    String blackIcon = null;
+    private Image whiteDefaultIcon = null, whiteCapturableIcon = null, whiteSelectedIcon = null, whiteBigIcon = null;
+    private String whiteIcon = null;
+    private Image blackDefaultIcon = null, blackCapturableIcon = null, blackSelectedIcon = null, blackBigIcon = null;
+    private String blackIcon = null;
     public Texture (String picon)  {
 	setIcon(picon);
     }
