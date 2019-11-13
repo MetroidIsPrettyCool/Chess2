@@ -1,20 +1,17 @@
 public class Trebuchet extends Piece  {
-    public Trebuchet ()  {
-	super(0, 0, 15, 4, "trebuchet", "Trebuchet", "Best siege engine", "Can take any piece 2 squares away", "But doesn't move when it does so", 0);
-    }
     public Trebuchet (int px, int py, int pcolor)  {
-	super(px, py, 15, 4, "trebuchet", "Trebuchet", "Best siege engine", "Can take any piece 2 squares away", "But doesn't move when it does so", pcolor);
+	super(px, py, 4, "trebuchet", "Trebuchet", "Best siege engine", "Can take any piece 2 squares away", "But doesn't move when it does so", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
 	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
-	for (int i = this.x - 2; i <= this.x + 2; i++)  {
-	    for (int j = this.y - 2; j <= this.y + 2; j++)  {
+	for (int i = this.getX() - 2; i <= this.getX() + 2; i++)  {
+	    for (int j = this.getY() - 2; j <= this.getY() + 2; j++)  {
 		if (i >= 0 && GameSettings.BOARDSIZE > i && j >= 0 && GameSettings.BOARDSIZE > j)
-		    if (board.board [i] [j].getId() != 0)  moves [i] [j] = 1;
+		    if (!board.board [i] [j].getName().equals(""))  moves [i] [j] = 1;
 	    }
 	}
-	moves [this.x] [this.y] = 0;
+	moves [this.getX()] [this.getY()] = 0;
 	return moves;
     }
     @Override

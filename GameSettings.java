@@ -17,5 +17,6 @@ public class GameSettings  {
     public static String pieceTexture = "default";
     public static boolean twoComputers = true;
     public static Texture [] icons = new Texture [16];
+    public static String [] pieceManifest = new String [16];
     public static Image [] blankIcons = new Image [4];
 }

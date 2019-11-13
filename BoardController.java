@@ -160,20 +160,35 @@ public class BoardController {
     public void initialize ()  {
 	// TODO: Move somewhere else
 	GameSettings.icons [ 1] = new Texture("pawn");
+	GameSettings.pieceManifest [ 1] = "Pawn";
 	GameSettings.icons [ 2] = new Texture("knight");
+	GameSettings.pieceManifest [ 2] = "Knight";
 	GameSettings.icons [ 3] = new Texture("bishop");
+	GameSettings.pieceManifest [ 3] = "Bishop";
 	GameSettings.icons [ 4] = new Texture("rook");
+	GameSettings.pieceManifest [ 4] = "Rook";
 	GameSettings.icons [ 5] = new Texture("queen");
+	GameSettings.pieceManifest [ 5] = "Queen";
 	GameSettings.icons [ 6] = new Texture("king");
+	GameSettings.pieceManifest [ 6] = "King";
 	GameSettings.icons [ 7] = new Texture("fortress");
+	GameSettings.pieceManifest [ 7] = "Fortress";
 	GameSettings.icons [ 8] = new Texture("barrier");
+	GameSettings.pieceManifest [ 8] = "Barrier";
 	GameSettings.icons [ 9] = new Texture("archer");
+	GameSettings.pieceManifest [ 9] = "Archer";
 	GameSettings.icons [10] = new Texture("cannon");
+	GameSettings.pieceManifest [10] = "Cannon";
 	GameSettings.icons [11] = new Texture("elephant");
+	GameSettings.pieceManifest [11] = "Elephant";
 	GameSettings.icons [12] = new Texture("hawk");
+	GameSettings.pieceManifest [12] = "Hawk";
 	GameSettings.icons [13] = new Texture("ram");
+	GameSettings.pieceManifest [13] = "Battering Ram";
 	GameSettings.icons [14] = new Texture("jester");
+	GameSettings.pieceManifest [14] = "Jester";
 	GameSettings.icons [15] = new Texture("trebuchet");
+	GameSettings.pieceManifest [15] = "Trebuchet";
 	GameSettings.blankIcons [0] = new Image(new File("./textures/" + GameSettings.pieceTexture + "/blank_.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
 	GameSettings.blankIcons [1] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_c.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
 	GameSettings.blankIcons [2] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_s.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
@@ -200,9 +215,6 @@ public class BoardController {
 		    clickedPiece = currPlayer.getBoard().board [xPos] [yPos];
 		    // If the current player is local and the piece is capturable
 		    if (currPlayer.getIsLocal() && clickedPiece.getCapturable())  {
-			if (selectedPiece.getId() == -1)  {
-			    currPlayer.setScore(currPlayer.getScore() - selectedPiece.getCost());
-			}
 			// Make the move chosen
 			currPlayer.setBoard(selectedPiece.makeMove(currPlayer.getBoard(), clickedPiece));
 			// Resets the kingInPlay flag pre-emptively

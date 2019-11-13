@@ -1,29 +1,26 @@
 public class Ram extends Piece  {
-    public Ram ()  {
-	super(0, 0, 13, 3, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", 0);
-    }
     public Ram (int px, int py, int pcolor)  {
-	super(px, py, 13, 3, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", pcolor);
+	super(px, py, 3, "ram", "Battering Ram", "Moves only forwards and backwards", "Can take two pieces when moving forward", "Smash", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
 	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
-        for (int i = 1; this.x - i >= 0; i++)  {
-	    moves [this.x - i] [this.y] = 1;
-	    if (board.board [this.x - i] [this.y].getId() != 0)  {
-		if (board.board [this.x - i] [this.y].canBeCaptured(this))  {
+        for (int i = 1; this.getX() - i >= 0; i++)  {
+	    moves [this.getX() - i] [this.getY()] = 1;
+	    if (!board.board [this.getX() - i] [this.getY()].getName().equals(""))  {
+		if (board.board [this.getX() - i] [this.getY()].canBeCaptured(this))  {
 		    i++;
-		    for (; this.x - i >= 0; i++)  {
-			moves [this.x - i] [this.y] = 1;
-			if (board.board [this.x - i] [this.y].getId() != 0)  break;
+		    for (; this.getX() - i >= 0; i++)  {
+			moves [this.getX() - i] [this.getY()] = 1;
+			if (!board.board [this.getX() - i] [this.getY()].getName().equals(""))  break;
 		    }
 		}
 		break;
 	    }
 	}
-	for (int i = 1; GameSettings.BOARDSIZE > this.x + i; i++)  {
-	    moves [this.x + i] [this.y] = 1;
-	    if (board.board [this.x + i] [this.y].getId() != 0)  break;
+	for (int i = 1; GameSettings.BOARDSIZE > this.getX() + i; i++)  {
+	    moves [this.getX() + i] [this.getY()] = 1;
+	    if (!board.board [this.getX() + i] [this.getY()].getName().equals(""))  break;
 	}
 	return moves;
     }

@@ -9,15 +9,15 @@ import javafx.scene.paint.Color;
 
 public class Piece implements Cloneable, Serializable {
     // transient Image nicon = null, sicon = null, cicon = null, bicon = null, temp = null;
-    boolean promoted = false, selected = false, capturable = false, modified = true;
-    int x, y, id, cost, color;
-    String icon, name, desc1, desc2, desc3;
-    final String [] colors = new String [] {"white", "black", ""};
-    public Piece (int x, int y, int id, int cost, String icon, String name, String desc1, String desc2, String desc3, int color)  {
+    private boolean promoted = false, selected = false, capturable = false, modified = true;
+    private int x, y, cost, color;
+    private String icon, name, desc1, desc2, desc3;
+    // final String [] colors = new String [] {"white", "black", ""};
+    public Piece (int x, int y, int cost, String icon, String name, String desc1, String desc2, String desc3, int color)  {
 	this.promoted = false;
 	this.x = x;
 	this.y = y;
-	this.id = id;
+	// this.id = id;
 	this.cost = cost;
 	this.icon = icon;
 	this.name = name;
@@ -38,12 +38,6 @@ public class Piece implements Cloneable, Serializable {
     public void setY (int y)  {
 	this.y = y;
     }
-    public int getId ()  {
-	return this.id;
-    }
-    public void setId (int id)  {
-	this.id = id;
-    }
     public int getCost ()  {
 	return this.cost;
     }
@@ -57,10 +51,10 @@ public class Piece implements Cloneable, Serializable {
 	this.color = color;
     }
     public Image getIcon (boolean selectable, boolean big)  {
-	if (big)  return GameSettings.icons [this.id].getIcon(false, false, (this.color == 0), true);
-        if (this.selected)  return GameSettings.icons [this.id].getIcon(false, true, (this.color == 0), false);
-	if (this.capturable)  return GameSettings.icons [this.id].getIcon(true, false, (this.color == 0), false);
-	return GameSettings.icons [this.id].getIcon(false, false, (this.color == 0), false);
+	if (big)  return GameSettings.icons [Texture.getInManifest(this.getName())].getIcon(false, false, (this.color == 0), true);
+	if (this.selected)  return GameSettings.icons [Texture.getInManifest(this.getName())].getIcon(false, true, (this.color == 0), false);
+	if (this.capturable)  return GameSettings.icons [Texture.getInManifest(this.getName())].getIcon(true, false, (this.color == 0), false);
+	return GameSettings.icons [Texture.getInManifest(this.getName())].getIcon(false, false, (this.color == 0), false);
     }
     public String getTexture ()  {
 	return this.icon;

@@ -1,0 +1,3 @@
+Changes:
+Fixed the description for the king
+Archers can now move one square forwards no matter what (still can't move backward)

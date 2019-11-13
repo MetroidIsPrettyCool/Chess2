@@ -43,6 +43,12 @@ public class Texture  {
 	if (capturable)  return (white) ? this.whiteCapturableIcon : this.blackCapturableIcon;
 	return (white) ? this.whiteDefaultIcon : this.blackDefaultIcon;
     }
+    public static int getInManifest (String str)  {
+	int i;
+	for (i = 1; i != GameSettings.pieceManifest.length && !GameSettings.pieceManifest [i].equals(str); i++);
+	System.out.println(i);
+	return i;
+    }
     // Copied from Stack Overflow
     // If it works, it works
     private Image reColor(Image inputImage, Color oldColor, Color newColor) {
