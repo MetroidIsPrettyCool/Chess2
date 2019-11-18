@@ -19,6 +19,7 @@ public class Main extends Application  {
     @Override
     public void start(Stage stage) throws IOException  {
        	MusicController musicThread = new MusicController();
+	musicThread.setDaemon(true);
 	musicThread.start();
         // Create the Pane and all Details
 	Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
@@ -36,16 +37,7 @@ public class Main extends Application  {
 		    try  {
 			Parent menu = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"));
 			scene.setRoot(menu);
-		        if (GameSettings.twoComputers && GameSettings.socket != null)  {
-			    GameSettings.out.close();
-			    GameSettings.in.close();
-			    GameSettings.socket.close();
-			    GameSettings.socket = null;
-			    if (GameSettings.server != null)  {
-				GameSettings.server.close();
-				GameSettings.server = null;
-			    }
-			}
+		        LAN.close();
 		    }
 		    catch (Exception ex)  {
 			System.out.println(ex + " Exiting Game");
@@ -54,8 +46,10 @@ public class Main extends Application  {
 	    }
 	    );
     }
-    @Override
-    public void stop ()  {
-	MusicController.exit = true;
-    }
+    // @Override
+    // public void stop ()  {
+    // 	System.out.println("Exiting");
+    // 	MusicController.exit = true;
+    // 	LAN.close();
+    // }
 }

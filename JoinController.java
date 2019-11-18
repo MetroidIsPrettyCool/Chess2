@@ -30,6 +30,7 @@ public class JoinController {
     @FXML
     void goBack(ActionEvent event) {
 	try  {
+	    LAN.close();
 	    Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 	    backButton.getScene().setRoot(mainMenu);
 	}
@@ -38,18 +39,16 @@ public class JoinController {
 	}
     }
 
-    private boolean connectionFailure = false;
-
     @FXML
     void startGame(ActionEvent event) {
 	try  {
-	    GameSettings.ip = InetAddress.getByName(ipInput.getText());
+	    LAN.setIp(ipInput.getText());
 	}
 	catch (Exception e)  {
 	    System.out.println(e);
 	    return;
 	}
-	if (GameSettings.socket != null)  {
+	if (LAN.getConnected())  {
 	    try  {
 		Parent game = FXMLLoader.load(getClass().getResource("fxml/board.fxml"));
 		startButton.getScene().setRoot(game);
@@ -61,27 +60,8 @@ public class JoinController {
 	}
 	startButton.setText("Connecting...");
 	startButton.setDisable(true);
-	connectionFailure = false;
-	Thread initClient = new Thread(new JoinController ().new StartClient ()); 
-        initClient.start();
+	LAN.connect();
     }
-
-    private class StartClient implements Runnable  { 
-	
-        public void run ()  {
-	    try  {
-	        GameSettings.socket = new Socket(GameSettings.ip, GameSettings.port); 
-
-		GameSettings.out = new ObjectOutputStream(GameSettings.socket.getOutputStream());
-		GameSettings.in = new ObjectInputStream(GameSettings.socket.getInputStream());
-	    }
-	    catch (Exception e)  {
-		System.out.println(e + " Starting Client");
-		connectionFailure = true;
-		return;
-	    }
-        } 
-    } 
 
     @FXML
     public void initialize() {
@@ -89,15 +69,14 @@ public class JoinController {
 	new AnimationTimer() {
             @Override
             public void handle(long now) {
-		if (connectionFailure && startButton.isDisabled())  {
-		    startButton.setText("Connect!");
-		    startButton.setDisable(false);
-		    connectionFailure = false;
-		}
-	        if (GameSettings.socket != null)  {
+		if (LAN.getConnected())  {
 		    startButton.setDisable(false);
 		    startButton.setText("Start!");
 		    this.stop();
+		}
+		if (!LAN.getConnecting() && startButton.isDisabled())  {
+		    startButton.setText("Connect!");
+		    startButton.setDisable(false);
 		}
 	    }
         }.start();

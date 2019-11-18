@@ -119,7 +119,7 @@ public class BoardController {
 		currPlayer.getBoard().board [i] [j].setCapturable(false);
 	    }
 	}
-	if (!GameSettings.twoComputers)  selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
+	if (!LAN.getConnected())  selectedPiece = new PoolPiece(currPlayer.allPieces [optionOffset + off]);
 	else if (white.getIsLocal())  selectedPiece = new PoolPiece(white.allPieces [optionOffset + off]);
 	else  selectedPiece = new PoolPiece(black.allPieces [optionOffset + off]);
 	if (currPlayer.getIsLocal() && currPlayer.allPieces [optionOffset + off].getCost() <= currPlayer.getScore() && selectedPiece.getPossibleMoves(currPlayer.getBoard()) != null)  {
@@ -194,8 +194,8 @@ public class BoardController {
 	GameSettings.blankIcons [2] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_s.png").toURI().toString(), GameSettings.IMAGESIZE, GameSettings.IMAGESIZE, false, false);
 	GameSettings.blankIcons [3] = new Image(new File ("./textures/" + GameSettings.pieceTexture + "/blank_.png").toURI().toString());
 	// White and black players. first arg is if they player is white, second is if the player is local
-	white = new Player(true, (GameSettings.server != null) || !GameSettings.twoComputers);
-	black = new Player(false, !((!GameSettings.twoComputers) ^ (GameSettings.server != null)) || !GameSettings.twoComputers);
+	white = new Player(true, LAN.getIsServer() || !LAN.getConnected());
+	black = new Player(false, !((!LAN.getConnected()) ^ (LAN.getIsServer())) || !LAN.getConnected());
 	// First playr to play is white
 	currPlayer = white;
 	// Stores what texture is in each square
@@ -230,17 +230,12 @@ public class BoardController {
 			}
 			// TODO: make the way this works change based on the gamemode
 			// Update the current player's score
-			if (currPlayer.getScore() + (GameSettings.BOARDSIZE - (currPlayer.getKingRank()) / 2) <= 20)
-			    currPlayer.setScore(currPlayer.getScore() + (GameSettings.BOARDSIZE - currPlayer.getKingRank()) / 2);
+			currPlayer.setScore(currPlayer.getScore() + ((GameSettings.BOARDSIZE - currPlayer.getKingRank() + 1) / 2));
+			if (currPlayer.getScore() > 20)  currPlayer.setScore(20);    
 			switchPlayers();
 			// Send the board to the other player
-			if (GameSettings.twoComputers)  {
-			    try  {
-				GameSettings.out.writeObject(currPlayer.getBoard());
-			    }
-			    catch (Exception ex)  {
-				System.out.println(ex + " Writing board");
-			    }
+			if (LAN.getConnected())  {
+			    LAN.write(currPlayer.getBoard());
 			}
 			for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 			    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
@@ -322,25 +317,27 @@ public class BoardController {
 			}
 		    }
 		}
-		if (GameSettings.socket == null && GameSettings.twoComputers)  {
-		    try  {
-			Parent menu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
-			boardBackground.getScene().setRoot(menu);	
-		    }
-		    catch (Exception e)  {
-			System.out.println(e + " Returning to menu");
-		    }
-		    this.stop();
-		    return;
-		}
+		// if (LAN.getConnected())  {
+		//     System.out.println("Connection error");
+		//     try  {
+		// 	Parent menu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
+		// 	boardBackground.getScene().setRoot(menu);	
+		//     }
+		//     catch (Exception e)  {
+		// 	System.out.println(e + " Returning to menu");
+		//     }
+		//     this.stop();
+		//     return;
+		// }
 		// TODO: Replace
 		// Redraw the options pool
 		redrawPool();
 	    }
         }.start();
         
-	Thread awaitMove = new Thread(new BoardController (). new AwaitMove ()); 
-        awaitMove.start();
+	Thread awaitMove = new Thread(new BoardController ().new AwaitMove ());
+	awaitMove.setDaemon(true);
+	awaitMove.start();
 
 	redrawPool();
 
@@ -348,15 +345,15 @@ public class BoardController {
 	    currPlayer.getBoard().flip();
 	    black.getBoard().flip();
 	}
-	if (!GameSettings.twoComputers) white.getBoard().flip();
+	if (!LAN.getConnected()) white.getBoard().flip();
     }
 
     private class AwaitMove implements Runnable  { 	
         public void run ()  {
-	    if (!GameSettings.twoComputers) return;
+	    if (!LAN.getConnected()) return;
 	    while (true)  {
 		try  {
-		    newBoard = (Board)GameSettings.in.readObject();
+		    newBoard = (Board)LAN.read();
 		    newBoard.flip();
 		    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 			for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
@@ -368,23 +365,9 @@ public class BoardController {
 		}
 		catch (Exception e)  {
 		    System.out.println(e + " Reading board");
-		    try  {
-			if (GameSettings.socket != null)  {
-			    GameSettings.out.close();
-			    GameSettings.in.close();
-			    GameSettings.socket.close();
-			    GameSettings.socket = null;
-			    if (GameSettings.server != null)  {
-				GameSettings.server.close();
-				GameSettings.server = null;
-			    }
-			}
-		    }
-		    catch (Exception ex)  {
-			System.out.println(ex + " Closing down server");
-		    }
 		    return;
 		}
+		if (newBoard == null)  return;
 		// Resets the kingInPlay flag pre-emptively
 		white.setKingInPlay(false);
 		black.setKingInPlay(false);
@@ -415,7 +398,7 @@ public class BoardController {
 		white.setBoard((Board)currPlayer.getBoard().clone());
 		currPlayer = white;
 	    }
-	    if (!GameSettings.twoComputers)  currPlayer.getBoard().flip();
+	    if (!LAN.getConnected())  currPlayer.getBoard().flip();
 	}
 	catch (Exception e)  {
 	    System.out.println(e + " Switching players");
@@ -425,7 +408,7 @@ public class BoardController {
     }
 
     private void redrawPool ()  {
-	if (!GameSettings.twoComputers)  {
+	if (!LAN.getConnected())  {
 	    pointsDisplay.setText(currPlayer.getScore() + " / 20 \u20bf");
 	    poolOption1.setImage(currPlayer.allPieces [optionOffset].getIcon(false, true));
 	    option1Cost.setText("" + currPlayer.allPieces [optionOffset].getCost());

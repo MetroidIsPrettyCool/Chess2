@@ -1,12 +1,12 @@
 import java.util.Arrays;
 public class King extends Piece  {
     public King (int px, int py, int pcolor)  {
-	super(px, py, 15, "king", "King", "Costs 3 to move", "Allows you to place pieces behind and at the same rank", "Furthest back king is used to calculate where pieces can be placed", pcolor);
+	super(px, py, 20, "king", "King", "Costs 5 to move", "Allows you to place pieces behind and at the same rank", "Furthest back king is used to calculate where pieces can be placed", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
 	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
-	if (BoardController.currPlayer.getScore() < 3)  return null;
+	if (BoardController.currPlayer.getScore() < 5)  return null;
 	for (int i = this.getX() - 1; i <= this.getX() + 1; i++)  {
 	    for (int j = this.getY() - 1; j <= this.getY() + 1; j++)  {
 		if (i >= 0 && GameSettings.BOARDSIZE > i && j >= 0 && GameSettings.BOARDSIZE > j)
@@ -18,7 +18,7 @@ public class King extends Piece  {
     }
     @Override
     public void afterMove (Board board, Piece p)  {
-	BoardController.currPlayer.setScore(BoardController.currPlayer.getScore() - 3);
+	BoardController.currPlayer.setScore(BoardController.currPlayer.getScore() - 5);
     }
     @Override
     public void upkeep ()  {

@@ -23,16 +23,7 @@ public class WinController {
 	try  {
 	    Parent menu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 	    background.getScene().setRoot(menu);
-	    if (GameSettings.twoComputers && GameSettings.socket != null)  {
-		GameSettings.out.close();
-		GameSettings.in.close();
-		GameSettings.socket.close();
-		GameSettings.socket = null;
-	        if (GameSettings.server != null)  {
-		    GameSettings.server.close();
-		    GameSettings.server = null;
-		}
-	    }
+	    LAN.close();
 	}
 	catch (Exception ex)  {
 	    System.out.println(ex + " Exiting Game");
@@ -47,7 +38,7 @@ public class WinController {
 	catch (Exception e)  {
 	    System.out.println(e + " Loading board background");
 	}
-	if (GameSettings.twoComputers)  {
+	if (LAN.getConnected())  {
 	    if (BoardController.white.getKingInPlay() && BoardController.white.getIsLocal())  message.setText("You Win!");
 	    else if (BoardController.black.getKingInPlay() && BoardController.black.getIsLocal())  message.setText("You Win!");
 	    else  message.setText("You Lose!");

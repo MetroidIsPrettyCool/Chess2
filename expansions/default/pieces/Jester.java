@@ -1,7 +1,7 @@
 public class Jester extends Piece  {
     private boolean moveMode;
     public Jester (int px, int py, int pcolor)  {
-	super(px, py, 6, "jester", "Jester", "Very special piece, alternates between:", "moving to any open square on the board", "To moving only one space in any direction", pcolor);
+	super(px, py, 8, "jester", "Jester", "Very special piece, alternates between:", "moving to any open square on the board", "To moving only one space in any direction", pcolor);
 	this.moveMode = true;
     }
     @Override

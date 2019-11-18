@@ -45,21 +45,24 @@ public class HostController {
 	// TODO: ADD LIST OF GAMEMODES
     }
 
+    private boolean lanGame = false;
+    
     @FXML
     void playerTwoIsRemote(ActionEvent event) {
-	GameSettings.twoComputers = true;
+	lanGame = true;
 	startButton.setText("Start Server!");
     }
 
     @FXML
     void playerTwoIsLocal(ActionEvent event) {
-	GameSettings.twoComputers = false;
+	lanGame = false;
 	startButton.setText("Start!");
     }
     
     @FXML
     void goBack(ActionEvent event) {
 	try  {
+	    LAN.close();
 	    Parent mainMenu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
 	    backButton.getScene().setRoot(mainMenu);
 	}
@@ -71,15 +74,12 @@ public class HostController {
     @FXML
     void startGame(ActionEvent event) {
 	try  {
-	    GameSettings.ip = InetAddress.getLocalHost();
-	    
+	    ipDisp.setText("IP Address: " + InetAddress.getLocalHost().getHostAddress().toString());
 	}
 	catch (Exception e)  {
-	    System.out.println(e + " Setting up connection");
+	    System.out.println(e + " Getting host Ip? Huh?");
 	}
-	ipDisp.setText("IP Address: " + GameSettings.ip.getHostAddress());
-	
-	if (GameSettings.socket != null || GameSettings.twoComputers == false)  {
+	if (LAN.getConnected() || !lanGame)  {
 	    try  {
 		startButton.setText("Loading...");
 		startButton.setDisable(true);
@@ -91,37 +91,14 @@ public class HostController {
 	    }
 	    return;
 	}
-	
-	if (GameSettings.twoComputers == true)  {
-	    startButton.setText("Waiting...");
-	    startButton.setDisable(true);
-	    Thread initServer = new Thread(new HostController ().new StartServer ()); 
-	    initServer.start();
-	}
+	startButton.setText("Waiting...");
+	startButton.setDisable(true);
+	LAN.host();
     }
-    
-    private class StartServer implements Runnable  { 
-	
-        public void run ()  { 
-	    try  {
-		GameSettings.server = new ServerSocket(GameSettings.port);
-	    
-		GameSettings.socket = GameSettings.server.accept();
-
-		
-		GameSettings.out = new ObjectOutputStream(GameSettings.socket.getOutputStream());
-		GameSettings.in = new ObjectInputStream(GameSettings.socket.getInputStream());
-	    }
-	    catch (Exception e)  {
-		System.out.println(e + " Starting Server");
-		return;
-	    }
-        } 
-    } 
 
     @FXML
     public void initialize() {
-	GameSettings.twoComputers = true;
+	lanGame = true;
         background.setStyle("-fx-background-image:url('file:textures/menu.png')");
 	final ToggleGroup group = new ToggleGroup();
 	p2rButton.setToggleGroup(group);
@@ -129,7 +106,7 @@ public class HostController {
 	new AnimationTimer() {
             @Override
             public void handle(long now) {
-	        if (GameSettings.socket != null)  {
+	        if (LAN.getConnected())  {
 		    startButton.setDisable(false);
 		    startButton.setText("Start!");
 		    this.stop();

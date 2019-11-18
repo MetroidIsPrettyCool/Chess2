@@ -11,10 +11,29 @@ public class Board implements Cloneable, Serializable  {
 		this.board [i] [j] = new BlankPiece(i, j);
 	    }
 	}
-	this.board [1] [5] = new King (1, 5, 1);
-	this.board [1] [4] = new Fortress (1, 4, 1);
-	this.board [8] [4] = new King (8, 4, 0);
-	this.board [8] [5] = new Fortress (8, 5, 0);
+	for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+	    this.board [1] [i] = new Pawn (1, i, 1);
+	    this.board [0] [i] = new Archer (0, i, 1);
+	    this.board [8] [i] = new Pawn (8, i, 0);
+	    this.board [9] [i] = new Archer (9, i, 0);
+	}
+	this.board [1] [3] = new Barrier (1, 3, 1);
+	this.board [1] [6] = new Barrier (1, 6, 1);
+	this.board [0] [5] = new King (0, 5, 1);
+	this.board [0] [4] = new Fortress (0, 4, 1);
+	this.board [0] [0] = new Rook (0, 0, 1);
+	this.board [0] [9] = new Rook (0, 9, 1);
+	this.board [0] [1] = new Bishop (0, 1, 1);
+	this.board [0] [8] = new Bishop (0, 8, 1);
+	
+        this.board [8] [3] = new Barrier (8, 3, 0);
+	this.board [8] [6] = new Barrier (8, 6, 0);
+	this.board [9] [4] = new King (9, 4, 0);
+	this.board [9] [5] = new Fortress (9, 5, 0);
+	this.board [9] [0] = new Rook (9, 0, 0);
+	this.board [9] [9] = new Rook (9, 9, 0);
+	this.board [9] [1] = new Bishop (9, 1, 0);
+	this.board [9] [8] = new Bishop (9, 8, 0);
 	boardImage = img;
     }
     public void flip ()  {
