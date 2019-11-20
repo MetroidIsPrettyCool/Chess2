@@ -288,7 +288,7 @@ public class BoardController {
 	    }
 	}
 
-	new AnimationTimer() {
+	new AnimationTimer ()  {
             @Override
             public void handle(long now) {
 		if (!white.getKingInPlay() || !black.getKingInPlay())  {
@@ -314,23 +314,10 @@ public class BoardController {
 			if (currPlayer.getBoard().board [i] [j].getModified())  {
 			    images [i] [j].setImage(currPlayer.getBoard().board [i] [j].getIcon(true, false));
 			    currPlayer.getBoard().board [i] [j].setModified(false);
+			    // System.out.println("ifoihfoihwf");
 			}
 		    }
 		}
-		// if (LAN.getConnected())  {
-		//     System.out.println("Connection error");
-		//     try  {
-		// 	Parent menu = FXMLLoader.load(getClass().getResource("fxml/mainMenu.fxml"));
-		// 	boardBackground.getScene().setRoot(menu);	
-		//     }
-		//     catch (Exception e)  {
-		// 	System.out.println(e + " Returning to menu");
-		//     }
-		//     this.stop();
-		//     return;
-		// }
-		// TODO: Replace
-		// Redraw the options pool
 		redrawPool();
 	    }
         }.start();

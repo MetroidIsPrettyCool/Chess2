@@ -1,6 +1,6 @@
 public class Hawk extends Piece  {
     public Hawk (int px, int py, int pcolor)  {
-	super(px, py, 7, "hawk", "Hawk", "Moves like bishop + knight", "Yep", "nothing else to add", pcolor);
+	super(px, py, 6, "hawk", "Hawk", "Moves like bishop + knight", "Yep", "nothing else to add", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {

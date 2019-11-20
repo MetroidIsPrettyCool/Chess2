@@ -1,6 +1,6 @@
 public class Bishop extends Piece  {
     public Bishop (int px, int py, int pcolor)  {
-	super(px, py, 1, "bishop", "Bishop", "Bishop Piece", "It's just a bishop", "I'm too tired to add anything else", pcolor);
+	super(px, py, 2, "bishop", "Bishop", "Bishop Piece", "It's just a bishop", "I'm too tired to add anything else", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {

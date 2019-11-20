@@ -1,6 +1,6 @@
 public class Elephant extends Piece  {
     public Elephant (int px, int py, int pcolor)  {
-	super(px, py, 9, "elephant", "Elephant", "Moves like a castle + a knight", "Not much else to say", "I'll make these descriptions better next release", pcolor);
+	super(px, py, 6, "elephant", "Elephant", "Moves like a castle + a knight", "Not much else to say", "I'll make these descriptions better next release", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {

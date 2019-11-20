@@ -1,6 +1,6 @@
 public class Cannon extends Piece  {
     public Cannon (int px, int py, int pcolor)  {
-	super(px, py, 5, "cannon", "Cannon", "Moves like a standard castle, but", "When capturing it must jump over a piece", "Fancy!", pcolor);
+	super(px, py, 8, "cannon", "Cannon", "Moves like a standard castle, but", "When capturing it must jump over a piece", "Fancy!", pcolor);
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
