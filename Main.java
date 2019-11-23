@@ -35,9 +35,9 @@ public class Main extends Application  {
 	scene.setOnKeyPressed(e -> {
 		if (e.getCode() == KeyCode.ESCAPE) {
 		    try  {
+			LAN.close();
 			Parent menu = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/mainMenu.fxml"));
 			scene.setRoot(menu);
-		        LAN.close();
 		    }
 		    catch (Exception ex)  {
 			System.out.println(ex + " Exiting Game");
@@ -46,10 +46,9 @@ public class Main extends Application  {
 	    }
 	    );
     }
-    // @Override
-    // public void stop ()  {
-    // 	System.out.println("Exiting");
-    // 	MusicController.exit = true;
-    // 	LAN.close();
-    // }
+    @Override
+    public void stop ()  {
+    	MusicController.exit = true;
+    	LAN.close();
+    }
 }

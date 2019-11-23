@@ -22,11 +22,17 @@ public class PoolPiece extends Piece  {
     }
     @Override
     public int [] [] getPossibleMoves (Board board)  {
-	if (BoardController.currPlayer.getKingRank() == -1)  return null;
 	int [] [] moves = new int [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
-        for (int i = BoardController.currPlayer.getKingRank(); i != GameSettings.BOARDSIZE && i >= 0; i++)  {
-	    for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
-	        if (board.board [i] [j].getName().equals(""))  moves [i] [j] = 1;
+	if (BoardController.currPlayer.getKingRank() == -1)  {
+	    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
+		if (board.board [9] [i].getName().equals(""))  moves [9] [i] = 1;
+	    }
+	}
+	else  {
+	    for (int i = BoardController.currPlayer.getKingRank(); i != GameSettings.BOARDSIZE && i >= 0; i++)  {
+		for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
+		    if (board.board [i] [j].getName().equals(""))  moves [i] [j] = 1;
+		}
 	    }
 	}
 	return moves;

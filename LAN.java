@@ -72,6 +72,7 @@ public class LAN  {
     public static Object read ()  {
 	if (!connected)  {
 	    close();
+	    return null;
 	}
 	try  {
 	    return in.readObject();
@@ -79,7 +80,6 @@ public class LAN  {
 	catch (Exception e)  {
 	    System.out.println(e + " Reading board");
 	}
-	close();
 	return null;
     }
 
@@ -97,6 +97,7 @@ public class LAN  {
     }
 
     public static void close ()  {
+	System.out.println("Closing!");
 	try  {
 	    if (connected)  {
 		out.close();
@@ -112,7 +113,12 @@ public class LAN  {
 	catch (Exception ex)  {
 	    System.out.println(ex + " Closing down server");
 	}
+	// // Remove this later
+	// BoardController.currPlayer = null;
+	// BoardController.white = null;
+	// BoardController.black = null;
 	connected = false;
+	isServer = false;
     }
 
     private static class StartServer implements Runnable  { 

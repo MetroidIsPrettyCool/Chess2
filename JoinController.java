@@ -26,6 +26,30 @@ public class JoinController {
 
     @FXML
     private TextField ipInput;
+
+    @FXML
+    void ipEnter(ActionEvent event) {
+	try  {
+	    LAN.setIp(ipInput.getText());
+	}
+	catch (Exception e)  {
+	    System.out.println(e);
+	    return;
+	}
+	if (LAN.getConnected())  {
+	    try  {
+		Parent game = FXMLLoader.load(getClass().getResource("fxml/board.fxml"));
+		startButton.getScene().setRoot(game);
+	    }
+	    catch (Exception e)  {
+		System.out.println(e + " Loading game board");
+	    }
+	    return;
+	}
+	startButton.setText("Connecting...");
+	startButton.setDisable(true);
+	LAN.connect();
+    }
     
     @FXML
     void goBack(ActionEvent event) {

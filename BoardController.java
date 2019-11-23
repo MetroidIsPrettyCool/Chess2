@@ -155,7 +155,9 @@ public class BoardController {
     public Piece clickedPiece = null;
 
     public Board newBoard;
-     
+
+    public static AnimationTimer drawRoutine;
+    
     @FXML
     public void initialize ()  {
 	// TODO: Move somewhere else
@@ -196,7 +198,8 @@ public class BoardController {
 	// White and black players. first arg is if they player is white, second is if the player is local
 	white = new Player(true, LAN.getIsServer() || !LAN.getConnected());
 	black = new Player(false, !((!LAN.getConnected()) ^ (LAN.getIsServer())) || !LAN.getConnected());
-	// First playr to play is white
+	black.setScore(1);
+	// First player to play is white
 	currPlayer = white;
 	// Stores what texture is in each square
 	images = new ImageView [GameSettings.BOARDSIZE] [GameSettings.BOARDSIZE];
@@ -230,8 +233,13 @@ public class BoardController {
 			}
 			// TODO: make the way this works change based on the gamemode
 			// Update the current player's score
-			currPlayer.setScore(currPlayer.getScore() + ((GameSettings.BOARDSIZE - currPlayer.getKingRank() + 1) / 2));
-			if (currPlayer.getScore() > 20)  currPlayer.setScore(20);    
+			if (currPlayer.getKingRank() != -1)  {
+			    currPlayer.setScore(currPlayer.getScore() + ((GameSettings.BOARDSIZE - currPlayer.getKingRank() + 1) / 2));
+			}
+			else  {
+			    currPlayer.setScore(currPlayer.getScore() + 1);
+			}
+			if (currPlayer.getScore() > 20)  currPlayer.setScore(20);
 			switchPlayers();
 			// Send the board to the other player
 			if (LAN.getConnected())  {
@@ -288,7 +296,7 @@ public class BoardController {
 	    }
 	}
 
-	new AnimationTimer ()  {
+	drawRoutine = new AnimationTimer ()  {
             @Override
             public void handle(long now) {
 		if (!white.getKingInPlay() || !black.getKingInPlay())  {
@@ -314,13 +322,14 @@ public class BoardController {
 			if (currPlayer.getBoard().board [i] [j].getModified())  {
 			    images [i] [j].setImage(currPlayer.getBoard().board [i] [j].getIcon(true, false));
 			    currPlayer.getBoard().board [i] [j].setModified(false);
-			    // System.out.println("ifoihfoihwf");
 			}
 		    }
 		}
 		redrawPool();
 	    }
-        }.start();
+	    };
+	drawRoutine.start();
+	    
         
 	Thread awaitMove = new Thread(new BoardController ().new AwaitMove ());
 	awaitMove.setDaemon(true);
@@ -335,12 +344,21 @@ public class BoardController {
 	if (!LAN.getConnected()) white.getBoard().flip();
     }
 
-    private class AwaitMove implements Runnable  { 	
+    private class AwaitMove implements Runnable  {
+	Object readIn;
         public void run ()  {
 	    if (!LAN.getConnected()) return;
 	    while (true)  {
 		try  {
-		    newBoard = (Board)LAN.read();
+		    readIn = LAN.read();
+		    if (readIn == null)  {
+			drawRoutine.stop();
+			currPlayer = null;
+			white = null;
+			black = null;
+			return;
+		    }
+		    newBoard = (Board)readIn;
 		    newBoard.flip();
 		    for (int i = 0; i != GameSettings.BOARDSIZE; i++)  {
 			for (int j = 0; j != GameSettings.BOARDSIZE; j++)  {
@@ -354,7 +372,6 @@ public class BoardController {
 		    System.out.println(e + " Reading board");
 		    return;
 		}
-		if (newBoard == null)  return;
 		// Resets the kingInPlay flag pre-emptively
 		white.setKingInPlay(false);
 		black.setKingInPlay(false);
